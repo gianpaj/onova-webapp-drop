@@ -16,7 +16,7 @@ function Header({ showTagline }: Props) {
         </a>
       </div> */}
       <Link to="/">
-        <img alt="Onova" className="my-5" src={require('../images/icon-150px.png')} width="75" height="75" />
+        <img alt="Onova" className="my-5" src={require('../images/logo-vector.svg')} width="75" height="75" />
       </Link>
       {showTagline && <h1>Мобільним додатком для купівлі та продажу одягу</h1>}
     </div>

@@ -9,7 +9,7 @@ const app = express();
 
 axios.defaults.baseURL = 'https://onova.co';
 
-const onovaImage = 'https://onova.co/img/logo-white-1200px-cropped.png';
+const dropLogo = 'https://drop.uno/img/drop-logo-512px.png';
 
 // read in the index.html file
 const filePath = path.resolve(__dirname, './dist', 'index.html');
@@ -19,9 +19,9 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "Organization",
-  "logo": "https://onova.co/img/logo-white-1200px-cropped.png"
   "name": "Drop",
   "url": "https://drop.uno",
+  "logo": "https://drop.uno/img/drop-logo-512px.png"
 }
 </script>
 <script data-schema="SoftwareApplication" type="application/ld+json">
