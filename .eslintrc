@@ -1,0 +1,27 @@
+{
+  "extends": "react-app",
+  "env": {
+    "browser": true,
+    "jest": true,
+    "node": true
+  },
+  "rules": {
+    "arrow-parens": 0,
+    "arrow-body-style": 0,
+    "comma-dangle": [2, "always-multiline"],
+    "global-require": 0,
+    "import/no-dynamic-require": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": 0,
+    "import/no-duplicates": 2,
+    "max-len": 0,
+    "no-unused-vars": 2,
+    "no-plusplus": 0,
+    "react/default-props-match-prop-types": 0,
+    "react/destructuring-assignment": 0,
+    "react/forbid-prop-types": 0,
+    "react/jsx-no-bind": 2,
+    "react/jsx-filename-extension": [2, { "extensions": [".ts", ".tsx"] }],
+    "react/require-default-props": 0
+  }
+}

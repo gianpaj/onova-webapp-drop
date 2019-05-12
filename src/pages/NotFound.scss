@@ -1,0 +1,25 @@
+$dark: #110f11;
+
+.not-found-container {
+  background-color: $dark;
+  height: 100vh;
+
+  h3 {
+    color: white;
+  }
+}
+
+video {
+  width: 300px;
+}
+
+.shadowVideo {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  box-shadow: inset 0px 0px 20px 20px $dark;
+  // 34px = height of h3
+  // 8px = margin of h3
+  top: calc((100vh - 300px + 34px + 8px) / 2);
+  left: calc((100vw - 300px) / 2);
+}

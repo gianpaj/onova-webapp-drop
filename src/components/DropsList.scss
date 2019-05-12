@@ -1,0 +1,16 @@
+.drops-list {
+  margin-top: -4rem;
+
+  .time {
+    margin: 2.5rem 0;
+  }
+
+  .drop-container {
+    max-width: 986px;
+    margin-bottom: -30px; // for the last item
+
+    @media (max-width: 787px) {
+      margin: 0 -2px;
+    }
+  }
+}

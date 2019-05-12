@@ -1,0 +1,79 @@
+.total {
+  color: #000;
+  font-weight: 600;
+}
+
+.total-label {
+  color: #000;
+}
+
+.mandatory-text {
+  font-size: smaller;
+  font-weight: 100;
+  color: #bfbfbf;
+
+  a {
+    color: #bfbfbf;
+  }
+}
+
+.checkout-sidebar {
+  .sidesheet {
+    width: 500px;
+  }
+
+  form {
+    width: 220px; // desktop
+  }
+
+  .bp3-button {
+    justify-content: space-between;
+
+    width: 220px; // desktop
+  }
+
+  .payment-info {
+    margin: 0 -50px;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  .card-image {
+    cursor: pointer;
+    width: 118px;
+
+    &:hover {
+      box-shadow: 0px 0px 3px 0px #ff001e;
+    }
+  }
+}
+
+.bp3-text-overflow-ellipsis {
+  strong {
+    color: #ffb74d;
+  }
+}
+
+.bp3-select-popover .bp3-popover-content {
+  width: 218px;
+}
+
+.green-checkmark {
+  filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+  margin-left: -20px;
+}
+
+.modal-header {
+  border-bottom: 0 !important;
+}
+
+.modal-title {
+  text-align: center;
+  width: 100%;
+}
+
+.modal-footer {
+  border-top: 0 !important;
+}

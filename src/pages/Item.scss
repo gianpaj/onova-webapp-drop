@@ -1,0 +1,123 @@
+@import '~flickity/css/flickity';
+@import '~flickity-fullscreen/fullscreen';
+
+$grey: #252525;
+
+.item-page {
+  .nav-link {
+    @media (min-width: 992px) {
+      display: inline-block;
+    }
+  }
+
+  header {
+    text-align: center;
+
+    .back-arrow {
+      padding: 1.3em 0;
+      width: 2em;
+    }
+  }
+
+  .text-align-multiple {
+    padding: 0 15px !important;
+    text-align: left;
+  }
+
+  .text-align-one {
+    padding: 0 15px !important;
+    text-align: left;
+
+    @media (max-width: 500px) {
+      padding: 15px !important;
+    }
+  }
+
+  // .username {
+  //   color: $grey;
+  // }
+
+  .btn-outline-primary {
+    border-color: $grey;
+  }
+
+  button {
+    font-weight: 300;
+  }
+  //     height: 45,
+  //     margin: {
+  //       top: 10,
+  //       right: 10,
+  //       bottom: 10,
+  //     },
+  //     '@media (max-width: 500px)' {
+  //       height: 40,
+  //     },
+  // }
+
+  .title {
+    margin-top: 35px;
+  }
+
+  .lead {
+    color: $grey;
+    margin: 0;
+  }
+
+  .price {
+    margin: 1em 0;
+  }
+}
+
+/* react-flickity-component */
+.carousel {
+  width: 555px;
+  height: 555px;
+
+  @media (max-width: 1152px) {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 500px) {
+    width: 100vw;
+    height: 100vw;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.flickity-page-dots {
+  bottom: -45px;
+}
+
+.flickity-button,
+.flickity-button:hover {
+  background: transparent;
+}
+
+.flickity-button-icon {
+  fill: $grey;
+}
+
+.carousel.is-fullscreen {
+  .carousel-cell {
+    height: 100%;
+  }
+
+  .flickity-button-icon {
+    fill: white;
+  }
+
+  img {
+    object-fit: contain;
+  }
+}
+
+.flickity-page-dots .dot {
+  background: $grey;
+}

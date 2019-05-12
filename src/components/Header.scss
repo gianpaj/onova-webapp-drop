@@ -1,0 +1,25 @@
+.header {
+  text-align: center;
+
+  .icon-row {
+    max-width: 986px;
+    margin-bottom: -48px;
+
+    @media (max-width: 787px) {
+      margin-right: 1rem;
+    }
+  }
+
+  h1 {
+    color: inherit;
+    font-size: 36px;
+    line-height: 2;
+    margin-top: -10px;
+
+    @media (max-width: 787px) {
+      font-size: 24px;
+      margin-bottom: 15px;
+      padding: 0 15px;
+    }
+  }
+}

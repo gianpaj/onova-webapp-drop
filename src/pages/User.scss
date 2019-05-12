@@ -1,0 +1,26 @@
+$grey: #252525;
+
+.user-page {
+  text-align: center;
+
+  .user-data {
+    text-align: left;
+    min-height: 100px;
+    max-width: 630px;
+    margin: 0 auto 20px;
+
+    // .bio {
+    //  white-space: pre;
+    // }
+
+    .username {
+      font-size: 1.5em;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
+    .lead {
+      color: $grey;
+    }
+  }
+}

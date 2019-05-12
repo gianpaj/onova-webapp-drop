@@ -1,0 +1,62 @@
+@import './custom.scss';
+
+body {
+  margin: 3px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  /* text-align: center; */
+}
+
+/*** uncss> filename: https://cdnjs.cloudflare.com/ajax/libs/antd/3.6.4/antd.min.css ***/
+/* only for the button */
+/*!
+ *
+ * antd v3.6.4
+ *
+ * Copyright 2015-present, Alipay, Inc.
+ * All rights reserved.
+ *
+ */
+body,html{width:100%;height:100%}*,:after,:before{-webkit-box-sizing:border-box;box-sizing:border-box}html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:rgba(0,0,0,0)}@-ms-viewport{width:device-width}header{display:block}body{margin:0;font-size:14px;line-height:1.5;color:rgba(0,0,0,.65);background-color:#fff}a{color:#1890ff;background-color:transparent;text-decoration:none;outline:none;cursor:pointer;-webkit-transition:color .3s;transition:color .3s;-webkit-text-decoration-skip:objects}a:focus{text-decoration:underline;-webkit-text-decoration-skip:ink;text-decoration-skip:ink}a:hover{color:#40a9ff}a:active{color:#096dd9}a:active,a:hover{outline:0;text-decoration:none}img{vertical-align:middle;border-style:none}a{-ms-touch-action:manipulation;touch-action:manipulation}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}::-moz-selection{background:#1890ff;color:#fff}::selection{background:#1890ff;color:#fff}.clearfix{zoom:1}.clearfix:after,.clearfix:before{content:"";display:table}.clearfix:after{clear:both}@font-face{font-family:anticon;src:url("https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.eot");src:url("https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.woff") format("woff"),url("https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.ttf") format("truetype"),url("https://at.alicdn.com/t/font_148784_v4ggb6wrjmkotj4i.svg#iconfont") format("svg")}.ant-btn{line-height:1.5;display:inline-block;font-weight:400;text-align:center;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;background-image:none;border:1px solid transparent;white-space:nowrap;padding:0 15px;font-size:14px;border-radius:4px;height:32px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-transition:all .3s cubic-bezier(.645,.045,.355,1);transition:all .3s cubic-bezier(.645,.045,.355,1);position:relative;color:rgba(0,0,0,.65);background-color:#fff;border-color:#d9d9d9}.ant-btn,.ant-btn:active,.ant-btn:focus{outline:0}.ant-btn:not([disabled]):hover{text-decoration:none}.ant-btn:not([disabled]):active{outline:0;-webkit-transition:none;transition:none}.ant-btn:focus,.ant-btn:hover{color:#40a9ff;background-color:#fff;border-color:#40a9ff}.ant-btn:active{color:#096dd9;background-color:#fff;border-color:#096dd9}.ant-btn:active,.ant-btn:focus,.ant-btn:hover{background:#fff;text-decoration:none}.ant-btn:before{position:absolute;top:-1px;left:-1px;bottom:-1px;right:-1px;background:#fff;opacity:.35;content:"";border-radius:inherit;z-index:1;-webkit-transition:opacity .2s;transition:opacity .2s;pointer-events:none;display:none}a.ant-btn{line-height:30px}
+
+a,
+a:hover,
+a:active {
+  color: #000;
+}
+
+h1 {
+  color: #000;
+  font-weight: 300;
+  line-height: normal;
+}
+
+/* overwrite bootstrap tabs */
+.nav-tabs {
+  border: 0;
+  margin-top: 130px;
+}
+
+.nav-tabs .nav-link,
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  border: 0;
+  font-weight: 300;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link.active {
+  color: #000 !important;
+}
+
+.nav-tabs .nav-link {
+  color: #828282 !important;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,13 @@
+.socials {
+  img {
+    opacity: 0.6;
+    width: 25px;
+
+    @media (max-width: 787px) {
+    }
+  }
+
+  a:nth-child(2) {
+    margin-left: 5px;
+  }
+}

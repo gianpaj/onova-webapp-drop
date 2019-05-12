@@ -1,0 +1,23 @@
+.store-buttons {
+  margin-bottom: 30px;
+
+  @media (max-width: 787px) {
+    margin: 0 auto 25px;
+  }
+
+  &.no-gutters {
+    img:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+
+  img {
+    height: 45px;
+    margin: 10px;
+
+    @media (max-width: 500px) {
+      height: 40px;
+      margin: 5px;
+    }
+  }
+}
