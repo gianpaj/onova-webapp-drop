@@ -47,7 +47,7 @@ export default class App extends Component {
             <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})/drop/:uuid([a-zA-Z0-9_-]{7,14})" component={User} />
 
             {/* this route is used for in-browser navigation */}
-            <Route
+            {/* <Route
               exact
               path="/uploader"
               // eslint-disable-next-line react/jsx-no-bind
@@ -55,7 +55,7 @@ export default class App extends Component {
                 window.location.href = 'https://onova.co/uploader';
                 return null;
               }}
-            />
+            /> */}
             <Route component={NotFound} />
           </Switch>
         </Router>

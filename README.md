@@ -1,4 +1,4 @@
-# [Onova webapp](https://onova.co)
+# [Drop webapp](https://drop.uno)
 
 ## Instructions for static html pages (faq.html, privacy-policy.html and terms)
 

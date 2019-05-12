@@ -19,21 +19,20 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "Organization",
-  "name": "Onova",
-  "url": "https://onova.co",
-  "sameAs": ["https://www.facebook.com/onovaapp/", "https://www.instagram.com/onova_app"],
   "logo": "https://onova.co/img/logo-white-1200px-cropped.png"
+  "name": "Drop",
+  "url": "https://drop.uno",
 }
 </script>
 <script data-schema="SoftwareApplication" type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Onova - Купуй та продавай одяг з телефону",
+  "name": "Drop - Купуй та продавай одяг та аксесуари з телефону",
   "operatingSystem": "ANDROID",
   "applicationCategory": "http://schema.org/MobileApplication",
-  "installUrl": "https://play.google.com/store/apps/details?id=com.onova.app&hl=uk",
-  "description": "Купуй та продавай одяг з телефону Download Givebox for Android and iPhone today",
+  "installUrl": "https://play.google.com/store/apps/details?id=uno.drop.app&hl=uk",
+  "description": "Купуй та продавай одяг та аксесуари з телефону Download Givebox for Android and iPhone today",
   "offers": {
     "@type": "Offer",
     "price": "0"
@@ -44,12 +43,12 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 app.get('/', (req, res) => {
   // replace the special strings with server generated strings
   let html = htmlFile;
-  html = html.replace(/\$OG_TITLE\$/g, 'Onova - Одяг та аксесуари українських брендів');
+  html = html.replace(/\$OG_TITLE\$/g, 'Drop - Купуй та продавай одяг та аксесуари з телефону');
   html = html.replace(/\$OG_DESCRIPTION\$/g, 'Мобільним додатком для купівлі та продажу одягу');
-  html = html.replace(/\$OG_IMAGE\$/g, onovaImage);
+  html = html.replace(/\$OG_IMAGE\$/g, dropLogo);
   html = html.replace(/\$OG_IMAGE_WIDTH\$/g, '1200');
   html = html.replace(/\$OG_IMAGE_HEIGHT\$/g, '630');
-  html = html.replace(/\$OG_CANONICAL\$/g, 'https://onova.co/');
+  html = html.replace(/\$OG_CANONICAL\$/g, 'https://drop.uno/');
   html = html.replace('__$SCHEMA__', defaultSchema);
   html = html.replace(/__\$.*\$__/g, ''); // remove comments
   return res.status(200).send(html);
@@ -68,9 +67,9 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.get('/uploader', (req, res) => {
-  res.redirect('https://onova.co/uploader');
-});
+// app.get('/uploader', (req, res) => {
+//   res.redirect('https://onova.co/uploader');
+// });
 
 app.get('/:userName([a-zA-Z0-9_.]{3,30}$)', (req, res) => {
   axios(`/api/users/?username=${req.params.userName}`)
@@ -84,10 +83,10 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30}$)', (req, res) => {
         /\$OG_DESCRIPTION\$/g,
         data.bio && htmlEscape(data.bio) ? htmlEscape(data.bio.substring(0, 300)) : ''
       );
-      html = html.replace(/\$OG_IMAGE\$/g, data.profilePic || onovaImage);
+      html = html.replace(/\$OG_IMAGE\$/g, data.profilePic || dropLogo);
       html = html.replace(/\$OG_IMAGE_WIDTH\$/g, data.profilePic ? '200' : '1200');
       html = html.replace(/\$OG_IMAGE_HEIGHT\$/g, data.profilePic ? '200' : '630');
-      html = html.replace(/\$OG_CANONICAL\$/g, `https://onova.co/${req.params.userName}`);
+      html = html.replace(/\$OG_CANONICAL\$/g, `https://drop.uno/${req.params.userName}`);
       html = html.replace(/__\$.*\$__/g, ''); // remove comments
       html = html.replace('__$SCHEMA__', '');
       res.status(200).send(html);
@@ -154,7 +153,7 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
   "offers": {
     "@type": "Offer",
     "itemOffered": "Product",
-    "url": "https://onova.co/${userName}/${itemId}",
+    "url": "https://drop.uno/${userName}/${itemId}",
     "priceCurrency": "UAH",
     "price": "${data.price}",
     "priceValidUntil": "2020-11-05",
@@ -167,7 +166,7 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
 }
 </script>`
       );
-      html = html.replace(/\$OG_CANONICAL\$/g, `https://onova.co/${userName}/${itemId}`);
+      html = html.replace(/\$OG_CANONICAL\$/g, `https://drop.uno/${userName}/${itemId}`);
       res.status(200).send(html);
     })
     .catch(e => {
@@ -181,12 +180,12 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
 
 app.get('*', (req, res) => {
   let html = htmlFile;
-  html = html.replace(/\$OG_TITLE\$/g, 'Not Found - Onova - Одяг та аксесуари українських брендів');
+  html = html.replace(/\$OG_TITLE\$/g, 'Not Found - Drop - Купуй та продавай одяг та аксесуари з телефону');
   html = html.replace(/\$OG_DESCRIPTION\$/g, 'Мобільним додатком для купівлі та продажу одягу');
-  html = html.replace(/\$OG_IMAGE\$/g, onovaImage);
+  html = html.replace(/\$OG_IMAGE\$/g, dropLogo);
   html = html.replace(/\$OG_IMAGE_WIDTH\$/g, '1200');
   html = html.replace(/\$OG_IMAGE_HEIGHT\$/g, '630');
-  html = html.replace(/\$OG_CANONICAL\$/g, 'https://onova.co/');
+  html = html.replace(/\$OG_CANONICAL\$/g, 'https://drop.uno/');
   return res.status(404).send(html);
 });
 

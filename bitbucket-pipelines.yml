@@ -20,7 +20,7 @@ pipelines:
             - >
               ssh bitbucket@direct.onova.co /bin/bash << EOF
                 echo "connected to `hostname` as $USER";
-                cd /var/www/webapp &&
+                cd /var/www/webapp-drop &&
                 git fetch &&
                 git log -1 --oneline &&
                 git reset --hard origin/master &&
@@ -28,7 +28,7 @@ pipelines:
                 GENERATE_SOURCEMAP=false nice -n 19 yarn build &&
                 rm -rf dist/* &&
                 cp -Rv build/* dist &&
-                pm2 reload webapp --silent --no-color &&
+                pm2 reload webapp-drop --silent --no-color &&
                 curl --fail --silent --show-error -X POST "https://api.cloudflare.com/client/v4/zones/77e2a8cc05b593b3d2ba17a117ae9c2a/purge_cache" \
                   -H "X-Auth-Email: hello@givebox.xyz" \
                   -H "X-Auth-Key: $CLOUDFLARE_AUTH_KEY" \

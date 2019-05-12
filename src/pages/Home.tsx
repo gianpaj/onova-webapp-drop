@@ -39,7 +39,7 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Helmet title="Onova - Одяг та аксесуари українських брендів" />
+      <Helmet title="Drop - Купуй та продавай одяг та аксесуари з телефону" />
       <Header />
       <StoreButtons classNames="pb-3 text-center" />
       <ItemsList items={data} />
@@ -66,27 +66,27 @@ function Home() {
           <img style={{ width: '65px' }} alt="uapay-logo" className="px-2" src={require('../images/uapay.png')} />
         </div>
         <div>
-          <a rel="noopener noreferrer" title="FAQ" href="https://onova.co/faq.html" target="_blank">
+          <a rel="noopener noreferrer" title="FAQ" href="https://drop.uno/faq.html" target="_blank">
             Поширені запитання
           </a>{' '}
           <a
             rel="noopener noreferrer"
             title="Safe purchase rules"
-            href="https://onova.co/safe-purchase-rules.html"
+            href="https://drop.uno/safe-purchase-rules.html"
             target="_blank">
             Безпечна Угода
           </a>{' '}
           <a
             rel="noopener noreferrer"
             title="Terms and conditions"
-            href="https://onova.co/terms-and-condition.html"
+            href="https://drop.uno/terms-and-condition.html"
             target="_blank">
             Оферта
           </a>{' '}
           <a
             rel="noopener noreferrer"
             title="Privacy Policy"
-            href="https://onova.co/privacy-policy.html"
+            href="https://drop.uno/privacy-policy.html"
             target="_blank">
             Політика конфіденційності
           </a>
