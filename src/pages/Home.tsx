@@ -9,7 +9,20 @@ import './Home.scss';
 
 const LIMIT = 90;
 
-const tags = ['onova'];
+const tags = [
+  'arcteryx',
+  'converse',
+  'fjallraven',
+  'gucci',
+  'haglofs',
+  'jackwolfskin',
+  'lowa',
+  'mammut',
+  'patagonia',
+  'stoneisland',
+  'supreme',
+  'thenorthface',
+];
 
 const tagsQueries = tags.map(t => `tags[]=${t}`).join('&');
 
