@@ -31,7 +31,7 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
   "name": "Drop - Купуй та продавай одяг та аксесуари з телефону",
   "operatingSystem": "ANDROID",
   "applicationCategory": "http://schema.org/MobileApplication",
-  "installUrl": "https://play.google.com/store/apps/details?id=uno.drop.app&hl=uk",
+  "installUrl": "https://play.google.com/store/apps/details?id=com.onova.app&hl=uk",
   "description": "Купуй та продавай одяг та аксесуари з телефону Download Givebox for Android and iPhone today",
   "offers": {
     "@type": "Offer",

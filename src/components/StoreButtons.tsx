@@ -15,7 +15,7 @@ function StoreButtons({ classNames }: Props) {
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="https://play.google.com/store/apps/details?id=uno.drop.app&hl=uk&referrer=utm_source%3Danypage%26utm_medium%3Dwebapp">
+        href="https://play.google.com/store/apps/details?id=com.onova.app&hl=uk&referrer=utm_source%3Danypage%26utm_medium%3Dwebapp">
         <img src={googlePlayStore} alt="Download Drop on Google Play Store" />
       </a>
       <a target="_blank" rel="noopener noreferrer" href="https://itunes.apple.com/ua/app/drop/id1365771422?l=uk">
