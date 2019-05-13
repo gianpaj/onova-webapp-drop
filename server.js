@@ -160,7 +160,7 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
     "availability": "https://schema.org/InStock",
     "seller": {
       "@type": "Organization",
-      "name": "${data.seller.displayName.trim()}"
+      "name": "${data.seller.displayName ? data.seller.displayName.trim() : userName}"
     }
   }
 }
