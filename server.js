@@ -178,6 +178,20 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
     });
 });
 
+app.get('/:userName([a-zA-Z0-9_.]{3,30})/drop/:itemId([a-zA-Z0-9_-]{7,14})', (req, res) => {
+  // replace the special strings with server generated strings
+  let html = htmlFile;
+  html = html.replace(/\$OG_TITLE\$/g, 'Drop - Купуй та продавай одяг та аксесуари з телефону');
+  html = html.replace(/\$OG_DESCRIPTION\$/g, 'Мобільним додатком для купівлі та продажу одягу');
+  html = html.replace(/\$OG_IMAGE\$/g, dropLogo);
+  html = html.replace(/\$OG_IMAGE_WIDTH\$/g, '1200');
+  html = html.replace(/\$OG_IMAGE_HEIGHT\$/g, '630');
+  html = html.replace(/\$OG_CANONICAL\$/g, 'https://drop.uno/');
+  html = html.replace('__$SCHEMA__', defaultSchema);
+  html = html.replace(/__\$.*\$__/g, ''); // remove comments
+  return res.status(200).send(html);
+});
+
 app.get('*', (req, res) => {
   let html = htmlFile;
   html = html.replace(/\$OG_TITLE\$/g, 'Not Found - Drop - Купуй та продавай одяг та аксесуари з телефону');
