@@ -29,7 +29,7 @@ pipelines:
                 rm -rf dist/* &&
                 cp -Rv build/* dist &&
                 pm2 reload webapp-drop --silent --no-color &&
-                curl --fail --silent --show-error -X POST "https://api.cloudflare.com/client/v4/zones/77e2a8cc05b593b3d2ba17a117ae9c2a/purge_cache" \
+                curl --fail --silent --show-error -X POST "https://api.cloudflare.com/client/v4/zones/b4e61ffa14307ad26df097ce0cee2ca6/purge_cache" \
                   -H "X-Auth-Email: hello@givebox.xyz" \
                   -H "X-Auth-Key: $CLOUDFLARE_AUTH_KEY" \
                   -H "Content-Type: application/json" \
