@@ -67,10 +67,6 @@ app.use((req, res, next) => {
   return next();
 });
 
-// app.get('/uploader', (req, res) => {
-//   res.redirect('https://onova.co/uploader');
-// });
-
 app.get('/:userName([a-zA-Z0-9_.]{3,30}$)', (req, res) => {
   axios(`/api/users/?username=${req.params.userName}`)
     .then(({ data }) => {

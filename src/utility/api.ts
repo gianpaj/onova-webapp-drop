@@ -6,11 +6,15 @@ axios.defaults.timeout = 20000;
 // export const isProd = false;
 export const isProd = true;
 
+let baseURL;
 if (isProd) {
-  axios.defaults.baseURL = 'https://onova.co';
+  baseURL = 'https://onova.co';
 } else {
-  axios.defaults.baseURL = 'http://localhost:4000';
+  baseURL = 'http://localhost:4000';
 }
+
+axios.defaults.baseURL = baseURL;
+export const API_URL = baseURL;
 
 interface IOptions extends AxiosRequestConfig {
   suppressRedBox?: boolean;

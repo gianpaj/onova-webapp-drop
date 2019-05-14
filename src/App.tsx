@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { isProd } from './utility/api';
 
-import { Home, Item, NotFound, User } from './pages';
+import { Home, Item, NotFound, User, Uploader } from './pages';
 
 const analyticsEnabled = isProd;
 
@@ -42,20 +42,10 @@ export default class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/uploader" component={Uploader} />
             <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})" component={User} />
             <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})" component={Item} />
             <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})/drop/:uuid([a-zA-Z0-9_-]{7,14})" component={User} />
-
-            {/* this route is used for in-browser navigation */}
-            {/* <Route
-              exact
-              path="/uploader"
-              // eslint-disable-next-line react/jsx-no-bind
-              component={() => {
-                window.location.href = 'https://onova.co/uploader';
-                return null;
-              }}
-            /> */}
             <Route component={NotFound} />
           </Switch>
         </Router>

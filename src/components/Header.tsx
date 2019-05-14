@@ -10,11 +10,11 @@ type Props = {
 function Header({ showTagline }: Props) {
   return (
     <div className="header">
-      {/* <div className="icon-row mx-auto p-4 text-right">
-        <a rel="noopener noreferrer" href="https://onova.co/uploader" target="_blank">
+      <div className="icon-row mx-auto p-4 text-right">
+        <Link to="/uploader">
           <img alt="Uploader" width="30" height="30" src={require('../images/user.svg')} />
-        </a>
-      </div> */}
+        </Link>
+      </div>
       <Link to="/">
         <img alt="Onova" className="my-5" src={require('../images/logo-vector.svg')} width="75" height="75" />
       </Link>

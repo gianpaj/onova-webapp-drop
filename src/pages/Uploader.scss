@@ -1,0 +1,55 @@
+@import '~antd/dist/antd.css';
+@import '~dropzone/dist/min/dropzone.min.css';
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* tile uploaded pictures */
+.upload-list-inline .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+.upload-list-inline .ant-upload-animate-enter {
+  animation-name: uploadAnimateInlineIn;
+}
+.upload-list-inline .ant-upload-animate-leave {
+  animation-name: uploadAnimateInlineOut;
+}
+
+ul.images {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  padding: 5px;
+  width: 100%;
+}
+
+ul.images li {
+  list-style: none;
+}
+
+ul {
+  margin-bottom: 0;
+}
+
+.items {
+  border-top: 1px solid lightgray;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ant-card {
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}

@@ -1,0 +1,26 @@
+// @flow
+
+export default {
+  MIN_LENGTH_DESCRIPTION: 7,
+  MAX_LENGTH_DESCRIPTION: 300,
+  MAX_LENGTH_COMMENT: 300,
+  MAX_LENGTH_REVIEW: 100,
+  MAX_CHAT_INPUT_LENGTH: 200,
+  MIN_LENGTH_REVIEW: 7,
+  MIN_LENGTH_PER_TAG: 1,
+  MAX_LENGTH_PER_TAG: 30,
+  MIN_LENGTH_REPORT: 7,
+  MAX_LENGTH_REPORT: 300,
+  MIN_TAGS: 0,
+  MAX_TAGS: 30,
+  MAX_BRAND_TAGS: 1,
+  MAX_IMAGE_WIDTH: 1440,
+  MAX_IMAGE_HEIGHT: 1440,
+  USERNAME_REGEX: /^$|^[a-zA-Z0-9_.]+$/,
+  PRICE_REGEX: /^$|^(\b[\d]+[.]?[\d]{0,2})$/,
+  // also match white space
+  HASHTAG_REGEX: /^$|^[a-zA-Z\u0400-\u04FF0-9]+$/,
+  // INSTABUG_TOKEN: '***REMOVED***',
+  // BRAINTREE_TOKENIZATION_KEY: 'sandbox_45rbtwk4_wpk6jkwxv5kpqp58',
+  MIN_PRICE: 150, // valid including
+};

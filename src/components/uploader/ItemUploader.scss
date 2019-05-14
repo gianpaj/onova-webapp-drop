@@ -1,0 +1,155 @@
+.error {
+  color: red;
+}
+
+.am-textarea-count {
+  float: right;
+}
+
+.ant-radio-wrapper {
+  margin-right: 0;
+  width: calc((100% - 32%) / 2);
+}
+
+.ant-radio-wrapper:nth-child(3) {
+  width: 32%;
+}
+
+span.ant-radio + * {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.am-textarea-item,
+.ant-input-number {
+  margin-top: 16px;
+}
+
+.dropzone.dz-started .dz-message {
+  display: inline-block;
+  width: 100%;
+}
+
+.dz-complete {
+  display: none !important;
+}
+
+.dropzone.dz-preview.dz-processing {
+  display: block;
+  margin-bottom: 16px;
+  min-height: 10px;
+}
+
+.photoContainer {
+  float: left;
+  width: 16.66%;
+  pointer-events: auto;
+}
+
+.photoContainer img,
+.readyPhoto img {
+  height: 100%;
+  width: 100%;
+  user-select: none;
+}
+
+.photoContainer img.disabled {
+  cursor: not-allowed;
+}
+
+.photoContainer .removeButton {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  margin-left: -20px;
+  margin-top: -5px;
+  padding: 0;
+  position: absolute;
+  opacity: 0;
+}
+
+.removeButton i::before {
+  background-color: #1f1f1f;
+}
+
+.photoContainer:hover .removeButton {
+  opacity: 1;
+}
+
+textarea {
+  border-color: lightgray;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+textarea:hover:not([disabled]),
+.dz-dropzone.dz-clickable:hover {
+  border-color: #40a9ff;
+  border-right-width: 1px !important;
+}
+
+textarea:disabled,
+.dz-ready {
+  background-color: #f5f5f5;
+  opacity: 1;
+  cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.progress {
+  height: 0.5rem;
+  border-radius: 0;
+}
+
+.filepicker {
+  font-family: sans-serif;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding: 0;
+  min-height: 54px;
+  height: 54px;
+  transition: border 0.3s;
+  transition-property: border;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+}
+
+.dropzone .dz-dropzone {
+  display: inline-block;
+  pointer-events: none;
+}
+.dropzone .dz-dropzone.dz-dropzone-empty {
+  display: block;
+}
+
+.dropzone .dz-message {
+  margin: 1em 0;
+  text-align: center;
+}
+
+.dropzone .dz-preview {
+  display: block;
+}
+
+.dz-started {
+  cursor: not-allowed;
+}
+
+.readyContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  justify-items: center;
+  min-height: 394px;
+}
+
+.anticon {
+  vertical-align: inherit;
+}
+
+/* HACK: fix when re-enabling item */
+.dz-default.dz-message {
+  display: none;
+}
