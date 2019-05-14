@@ -113,8 +113,8 @@ class Header extends React.Component<Props, State> {
                   height: 30,
                   marginRight: 10,
                 }}
-                src={require('../../images/icon-150px.png')}
-                alt="onova logo"
+                src={require('../../images/logo-vector.svg')}
+                alt="Drop logo"
               />
               <span>@{userData.username}</span>
             </Col>

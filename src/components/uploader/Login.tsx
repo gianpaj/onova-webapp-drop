@@ -59,7 +59,7 @@ class Login extends React.Component<IProps, State> {
             display: 'flex',
             flexDirection: 'column',
           }}>
-          <img style={{ width: 100, height: 100 }} src={require('../../images/icon-150px.png')} alt="Onova logo" />
+          <img style={{ width: 100, height: 100 }} src={require('../../images/logo-vector.svg')} alt="Drop logo" />
           <span
             style={{
               fontSize: 16,
