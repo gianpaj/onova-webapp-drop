@@ -24,7 +24,7 @@ declare global {
   }
 }
 
-const isProd = document.location.hostname === 'onova.co';
+const isProd = document.location.hostname === 'drop.uno';
 
 // const TIMEOUT_MESSAGE = 10 * 1000; // 10 seconds
 // const VK_TIMEOUT_MESSAGE = 10 * 1000; // 10 seconds
@@ -223,7 +223,7 @@ export default class Uploader extends React.Component {
   //   } catch (err) {
   //     if (err.message === 'Duplicate facebook id') {
   //       message.destroy();
-  //       message.error('This Facebook user already connect to an Onova user.');
+  //       message.error('This Facebook user already connect to an Drop user.');
   //     }
   //     console.error(err);
   //   }
@@ -394,11 +394,11 @@ export default class Uploader extends React.Component {
 
     const itemsReady = items.filter(i => i.ready === true);
 
-    // 2. Schedule to Onova
-    this.uploadToOnova(date, time)
+    // 2. Schedule to Drop
+    this.uploadToDrop(date, time)
       .then(() => {
         if (!shareOnVK) {
-          // `${itemsReady.length} listing(s) scheduled successfully to Onova.`
+          // `${itemsReady.length} listing(s) scheduled successfully to Drop.`
           message.success(`${itemsReady.length} речей заплановано успішно. Вони будуть автоматично виставлені`);
         }
         this.setState({ pending: false });
@@ -406,13 +406,13 @@ export default class Uploader extends React.Component {
       })
       .catch(e => {
         console.error(e);
-        message.error('Завантаження в Онову обірвалось');
+        message.error('Завантаження в Drop обірвалось');
         this.setState({ pending: false });
       });
 
     if (!shareOnVK) {
-      // return message.loading(`Scheduling ${itemsReady.length} items to Onova`);
-      return message.loading(`Завантажуємо ${itemsReady.length} речей в Онову`);
+      // return message.loading(`Scheduling ${itemsReady.length} items to Drop`);
+      return message.loading(`Завантажуємо ${itemsReady.length} речей в Drop`);
     }
     //     const timeoutID = setTimeout(() => {
     //       loadingMsg();
@@ -421,7 +421,7 @@ export default class Uploader extends React.Component {
 
     //     // 3. Schedule wall post to VK
     //     loadingMsg = message.loading(
-    //       // `Scheduling ${itemsReady.length} items to Onova and VK`,
+    //       // `Scheduling ${itemsReady.length} items to Drop and VK`,
     //       `Завантажуємо спланованих ${itemsReady.length} речей в Онову та ВК`,
     //       0
     //     );
@@ -441,7 +441,7 @@ export default class Uploader extends React.Component {
     //               const item = itemsReady[i];
 
     //               // Array of `photos` JSON object from VK
-    //               const { data } = await this.uploadPhotosOfOneItemToVKViaOnova(
+    //               const { data } = await this.uploadPhotosOfOneItemToVKViaDrop(
     //                 r.response.upload_url,
     //                 item
     //               );
@@ -536,19 +536,19 @@ export default class Uploader extends React.Component {
   /**
    * For each item we send the list of URLs to be uploaded to VK
    */
-  uploadPhotosOfOneItemToVKViaOnova(upload_url: string, item: Item): Promise<any> {
-    const { token } = this.state;
-    return api.post(
-      '/api/photos/upload-to-vk',
-      {
-        upload_url,
-        photos: item.photos,
-      },
-      { token }
-    );
-  }
+  // uploadPhotosOfOneItemToVKViaDrop(upload_url: string, item: Item): Promise<any> {
+  //   const { token } = this.state;
+  //   return api.post(
+  //     '/api/photos/upload-to-vk',
+  //     {
+  //       upload_url,
+  //       photos: item.photos,
+  //     },
+  //     { token }
+  //   );
+  // }
 
-  uploadToOnova = async (date: moment.Moment, time: moment.Moment) => {
+  uploadToDrop = async (date: moment.Moment, time: moment.Moment) => {
     const { items, token, location } = this.state;
 
     let itemsReady: any = items.filter(i => i.ready === true);
