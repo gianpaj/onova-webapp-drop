@@ -40,7 +40,7 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 }
 </script>`;
 
-app.get('/', (req, res) => {
+app.get(['/', '/uploader'], (req, res) => {
   // replace the special strings with server generated strings
   let html = htmlFile;
   html = html.replace(/\$OG_TITLE\$/g, 'Drop - Купуй та продавай одяг та аксесуари з телефону');
