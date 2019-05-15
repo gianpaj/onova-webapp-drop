@@ -113,6 +113,7 @@ class Header extends React.Component<Props, State> {
                   height: 30,
                   marginRight: 10,
                 }}
+                className="logo"
                 src={require('../../images/logo-vector.svg')}
                 alt="Drop logo"
               />

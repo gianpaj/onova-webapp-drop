@@ -248,7 +248,7 @@ export default class User extends React.Component<IProps, IState> {
           {activeTab !== -1 && (
             <footer className="py-5">
               <Link to="/">
-                <img alt="Drop" src={require('../images/logo-vector.svg')} width="75" height="75" />
+                <img className="logo" alt="Drop" src={require('../images/logo-vector.svg')} width="75" height="75" />
               </Link>
             </footer>
           )}

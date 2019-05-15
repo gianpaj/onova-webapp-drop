@@ -779,6 +779,7 @@ export default class Uploader extends React.Component {
             display: 'flex',
             flex: 1,
             justifyContent: 'center',
+            height: '100vh',
           }}>
           <Spin indicator={<Icon type="loading" style={{ fontSize: 54 }} spin />} />
         </div>

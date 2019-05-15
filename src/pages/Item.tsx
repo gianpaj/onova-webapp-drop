@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button } from 'reactstrap';
 
-import { CheckoutSidebar } from '../components';
+import { Avatar, CheckoutSidebar, StoreButtons } from '../components';
 import * as api from '../utility/api';
 import { changeToHTTPS, formatCurrency } from '../utility/Utility';
 
@@ -137,18 +137,19 @@ class Item extends React.Component<IProps, IState> {
             }`}>
             <p className="lead">{item.description}</p>
             <p className="lead price">{formatCurrency(parseFloat(item.price), 0)} ₴</p>
-            <Button outline size="lg" color="primary" onClick={this.onBuy}>
+            <Button size="lg" color="danger" onClick={this.onBuy}>
               Придбати
               {/* Buy */}
             </Button>
-            {/* <Link to={item.seller.username}>
+            <Link to={`/${item.seller.username}`}>
               <div className="row no-gutters my-4">
                 <Avatar user={item.seller} />
                 <div className="my-auto ml-3 username">
                   <p className="lead mb-0">@{item.seller.username}</p>
                 </div>
               </div>
-            </Link> */}
+            </Link>
+            <StoreButtons classNames="text-left no-gutters" />
           </div>
         </div>
         <footer className="py-5" />
