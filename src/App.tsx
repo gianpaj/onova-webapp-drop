@@ -37,19 +37,16 @@ export default class App extends Component {
     }
 
     return (
-      // for the image grid
-      <div style={{ overflow: 'hidden' }}>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/uploader" component={Uploader} />
-            <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})" component={User} />
-            <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})" component={Item} />
-            <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})/drop/:uuid([a-zA-Z0-9_-]{7,14})" component={User} />
-            <Route component={NotFound} />
-          </Switch>
-        </Router>
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/uploader" component={Uploader} />
+          <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})" component={User} />
+          <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})" component={Item} />
+          <Route exact path="/:userName([a-zA-Z0-9\_\.]{3,30})/drop/:uuid([a-zA-Z0-9_-]{7,14})" component={User} />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
     );
   }
 }
