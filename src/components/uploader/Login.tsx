@@ -119,7 +119,7 @@ class Login extends React.Component<IProps, State> {
                 loading={loading}
                 disabled={hasErrors(getFieldsError())}
                 type="primary">
-                Log in
+                Увійти
               </Button>
             </Form.Item>
             <p>Створити профіль можна з додатку</p>
