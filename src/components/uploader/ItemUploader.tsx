@@ -283,14 +283,13 @@ class ItemUploader extends React.Component<Props, State> {
     // formData.append('categoryIds', categoryIds.toString());
     // formData.append('typeIds', typeIds.toString());
     // if (tags.length) formData.append('tags', JSON.stringify(tags));
-    const data = {
+    const data: any = {
       id: this.props.id,
       categoryIds: categoryIds.toString(),
       description,
       photos: fileList.map(f => f.URL),
       price: price.toString(),
       typeIds: typeIds.toString(),
-      tags: '',
     };
     if (tags.length) data.tags = JSON.stringify(tags);
 

@@ -2,9 +2,9 @@ import moment from 'moment';
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
+import { Statistic } from 'antd';
 
 import { changeToGoogleApisThumb } from '../utility/Utility';
-import Countdown from './Countdown';
 
 import { Drop } from '../types';
 import './DropsList.scss';
@@ -32,20 +32,7 @@ export default ({ drops }: { drops: Drop[] }) => {
     return (
       <div key={drop.uuid} className="col-12">
         {willDropIn15Mins ? (
-          <Countdown
-            className="time"
-            targetDate={scheduledAt}
-            startDelay={1000}
-            interval={1000}
-            timeSeparator=":"
-            leadingZero
-            format={{
-              day: 'DD',
-              hour: 'HH',
-              minute: 'MM',
-              second: 'SS',
-            }}
-          />
+          <Statistic.Countdown value={scheduledAt.toString()} />
         ) : (
           <h5 className="time">{moment(scheduledAt).format('DD MMM H:mm')}</h5>
         )}
