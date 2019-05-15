@@ -8,7 +8,7 @@ export const isProd = true;
 
 let baseURL;
 if (isProd) {
-  baseURL = 'https://onova.co';
+  baseURL = 'https://api.onova.co';
 } else {
   baseURL = 'http://localhost:4000';
 }
