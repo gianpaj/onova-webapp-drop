@@ -569,14 +569,10 @@ export default class Uploader extends React.Component {
       longitude: location.longitude.toString(),
     };
 
-    try {
-      await api.post('/api/v2/drops', formData, {
-        token,
-        timeout: 20000,
-      });
-    } catch (err) {
-      return err;
-    }
+    await api.post('/api/v2/drops', formData, {
+      token,
+      timeout: 20000,
+    });
   };
 
   addItem = (formData: Item) => {

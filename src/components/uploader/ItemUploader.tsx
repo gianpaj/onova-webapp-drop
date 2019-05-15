@@ -484,6 +484,7 @@ class ItemUploader extends React.Component<Props, State> {
                       }
                       console.error(e);
                       message.error('Error uploading image');
+                      this.setState({ isUploading: false, progress: 0 });
                     },
                     // maxfilesexceeded: () =>
                     //   message.error("You can't upload more than 6 photos bro"),
