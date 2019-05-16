@@ -147,8 +147,8 @@ class ItemUploader extends React.Component<Props, State> {
     this.setState({ isUploading: true, progress: 100 });
     new ImageCompressor(originalFile, {
       quality: 0.9,
-      maxWidth: settings.MAX_IMAGE_WIDTH,
-      maxHeight: settings.MAX_IMAGE_HEIGHT,
+      // maxWidth: settings.MAX_IMAGE_WIDTH,
+      // maxHeight: settings.MAX_IMAGE_HEIGHT,
       // PNG files over this value will be converted to JPEGs if over 5 MB
       convertSize: 5 * 1000 * 1000,
       // accept: (file, done) => console.log(file, done),
