@@ -1,5 +1,27 @@
-.error {
-  color: red;
+$red: #f5222d;
+
+.ant-card {
+  :focus {
+    outline: none;
+  }
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+
+  .ant-form-item-control {
+    line-height: inherit;
+  }
+}
+
+.has-error {
+  textarea,
+  textarea:hover:not([disabled]) {
+    border-color: $red;
+  }
+  .ant-radio-inner {
+    border-color: $red;
+  }
 }
 
 .am-textarea-count {

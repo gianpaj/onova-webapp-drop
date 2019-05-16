@@ -1,6 +1,6 @@
 import React from 'react';
 import TextareaItem from 'antd-mobile/lib/textarea-item';
-import { Card, Button, Icon, Input, InputNumber, Radio, Tag, message } from 'antd';
+import { Card, Button, Icon, Input, InputNumber, Form, Radio, Tag, message } from 'antd';
 import { Formik } from 'formik';
 import { DropzoneComponent } from 'react-dropzone-component';
 import Row from 'reactstrap/lib/Row';
@@ -322,12 +322,12 @@ class ItemUploader extends React.Component<Props, State> {
       // errors.description = 'Write a longer description';
     }
 
-    if (isNaN(categoryIds)) {
+    if (isNaN(categoryIds[0])) {
       errors.categoryIds = "Обов'язково";
       // errors.categoryIds = 'Required';
     }
 
-    if (isNaN(typeIds)) {
+    if (isNaN(typeIds[0])) {
       errors.typeIds = "Обов'язково";
       // errors.typeIds = 'Required';
     }
@@ -553,34 +553,36 @@ class ItemUploader extends React.Component<Props, State> {
                     )}
                   </div>
                 </DropzoneComponent>
-                <InputNumber
-                  disabled={isSubmitting}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  formatter={v => `₴ ${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  id="price"
-                  min={settings.MIN_PRICE}
-                  onBlur={handleBlur}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={v => setFieldValue('price', v)}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  parser={(v: string | undefined) => (v ? parseInt(v.replace(/₴\s?|(,*)/g, '')) : -1)}
-                  value={values.price ? parseInt(values.price) : undefined}
-                />
-                {touched.price && errors.price && <span className="error"> {errors.price}</span>}
-                <TextareaItem
-                  // editable={!saved}
-                  disabled={isSubmitting}
-                  rows={5}
-                  style={{ width: '100%' }}
-                  count={300}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={v => setFieldValue('description', v)}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onBlur={() => setFieldTouched('description', true)}
-                  placeholder={'опис (min 7 знаків)'}
-                  value={values.description}
-                />
-                {touched.description && errors.description && <span className="error">{errors.description}</span>}
+                <Form.Item validateStatus={touched.price && errors.price ? 'error' : ''}>
+                  <InputNumber
+                    disabled={isSubmitting}
+                    // eslint-disable-next-line react/jsx-no-bind
+                    formatter={v => `₴ ${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    id="price"
+                    min={settings.MIN_PRICE}
+                    onBlur={handleBlur}
+                    // eslint-disable-next-line react/jsx-no-bind
+                    onChange={v => setFieldValue('price', v)}
+                    // eslint-disable-next-line react/jsx-no-bind
+                    // parser={(v: string | undefined) => v && parseInt(v.replace(/₴\s?|(,*)/g, ''))}
+                    value={values.price ? parseInt(values.price) : undefined}
+                  />
+                </Form.Item>
+                <Form.Item validateStatus={touched.description && errors.description ? 'error' : ''}>
+                  <TextareaItem
+                    // editable={!saved}
+                    disabled={isSubmitting}
+                    rows={5}
+                    style={{ width: '100%' }}
+                    count={300}
+                    // eslint-disable-next-line react/jsx-no-bind
+                    onChange={v => setFieldValue('description', v)}
+                    // eslint-disable-next-line react/jsx-no-bind
+                    onBlur={() => setFieldTouched('description', true)}
+                    placeholder="опис (min 7 знаків)"
+                    value={values.description}
+                  />
+                </Form.Item>
                 <div style={{ paddingVertical: 10, display: 'block' }}>
                   <div
                     style={{
@@ -605,22 +607,23 @@ class ItemUploader extends React.Component<Props, State> {
                   />
                 </div>
                 <div style={{ paddingTop: 10, paddingBottom: 5 }}>
-                  <Radio.Group
-                    disabled={isSubmitting}
-                    // eslint-disable-next-line react/jsx-no-bind
-                    onChange={e => {
-                      setFieldTouched('categoryIds', true);
-                      setFieldValue('categoryIds', e.target.value);
-                    }}
-                    value={values.categoryIds}
-                    style={{ display: 'block' }}>
-                    {ui.category_radio_grp_1.map((g, i) => (
-                      <Radio key={i} value={g.value}>
-                        {g.label}
-                      </Radio>
-                    ))}
-                    {touched.categoryIds && errors.categoryIds && <span className="error">{errors.categoryIds}</span>}
-                  </Radio.Group>
+                  <Form.Item validateStatus={touched.categoryIds && errors.categoryIds ? 'error' : ''}>
+                    <Radio.Group
+                      disabled={isSubmitting}
+                      // eslint-disable-next-line react/jsx-no-bind
+                      onChange={e => {
+                        setFieldTouched('categoryIds', true);
+                        setFieldValue('categoryIds', e.target.value);
+                      }}
+                      value={values.categoryIds}
+                      style={{ display: 'block' }}>
+                      {ui.category_radio_grp_1.map((g, i) => (
+                        <Radio key={i} value={g.value}>
+                          {g.label}
+                        </Radio>
+                      ))}
+                    </Radio.Group>
+                  </Form.Item>
                 </div>
                 <div
                   style={{
@@ -629,22 +632,23 @@ class ItemUploader extends React.Component<Props, State> {
                     borderTopWidth: 1,
                     borderColor: '#f5f5f5',
                   }}>
-                  <Radio.Group
-                    disabled={isSubmitting}
-                    // eslint-disable-next-line react/jsx-no-bind
-                    onChange={e => {
-                      setFieldTouched('typeIds', true);
-                      setFieldValue('typeIds', e.target.value);
-                    }}
-                    value={values.typeIds}
-                    style={{ display: 'block' }}>
-                    {ui.category_radio_grp_2.map((g, i) => (
-                      <Radio key={i} value={g.value}>
-                        {g.label}
-                      </Radio>
-                    ))}
-                    {touched.typeIds && errors.typeIds && <span className="error">{errors.typeIds}</span>}
-                  </Radio.Group>
+                  <Form.Item validateStatus={touched.typeIds && errors.typeIds ? 'error' : ''}>
+                    <Radio.Group
+                      disabled={isSubmitting}
+                      // eslint-disable-next-line react/jsx-no-bind
+                      onChange={e => {
+                        setFieldTouched('typeIds', true);
+                        setFieldValue('typeIds', e.target.value);
+                      }}
+                      value={values.typeIds}
+                      style={{ display: 'block' }}>
+                      {ui.category_radio_grp_2.map((g, i) => (
+                        <Radio key={i} value={g.value}>
+                          {g.label}
+                        </Radio>
+                      ))}
+                    </Radio.Group>
+                  </Form.Item>
                 </div>
                 <Row
                   style={{
@@ -659,7 +663,8 @@ class ItemUploader extends React.Component<Props, State> {
                       onClick={handleSubmit}
                       disabled={
                         // !(isValid && fileList.length) ||
-                        !fileList.length || isSubmitting || isUploading
+                        // !fileList.length ||
+                        isSubmitting || isUploading
                       }>
                       {/* done / ready */}
                       Підготовлено
