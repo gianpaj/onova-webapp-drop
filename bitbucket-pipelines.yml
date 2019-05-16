@@ -14,8 +14,13 @@ clone: # the 'clone' section
 pipelines:
   branches:
     master:
+    - step:
+          name: Sentry Release
+          image: getsentry/sentry-cli
+          script:
+            - sentry-cli releases -o "${SENTRY_ORG}" new -p "${SENTRY_PROJECT}" "${BITBUCKET_BUILD_NUMBER}"
+            - sentry-cli releases -o "${SENTRY_ORG}" set-commits --auto "${BITBUCKET_BUILD_NUMBER}"
       - step:
-          deployment: production
           script:
             - >
               ssh bitbucket@direct.onova.co /bin/bash << EOF
@@ -34,3 +39,10 @@ pipelines:
                   -H "X-Auth-Key: $CLOUDFLARE_AUTH_KEY" \
                   -H "Content-Type: application/json" \
                   --data '{"purge_everything":true}'
+      - step:
+          name: Sentry Finalize Release & Deploy
+          deployment: production
+          image: getsentry/sentry-cli
+          script:
+            - sentry-cli releases -o "${SENTRY_ORG}" finalize "${BITBUCKET_BUILD_NUMBER}"
+            - sentry-cli releases -o "${SENTRY_ORG}" deploys "${BITBUCKET_BUILD_NUMBER}" new -e "production"
