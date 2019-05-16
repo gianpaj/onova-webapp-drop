@@ -304,70 +304,75 @@ export default class Uploader extends React.Component {
   refreshUser = async (): Promise<any> => {
     const { token, userData } = this.state;
     if (!userData) return;
-    try {
-      const body = await api.get(`/api/users/${userData._id}/personal`, {
-        token,
-      });
-      if (!this.canCreateDrop(body)) {
-        // Before uploading items and creating drops, please enter you shipping and card details on the mobile app
-        throw new Error(
-          'Будь ласка додайте спочатку інформацію щодо вашого відділення нової пошти і на яку картку мають зараховуватися кошти в налаштування'
-        );
-      }
-
-      Sentry.configureScope(scope => {
-        scope.setUser({
-          email: userData.emailAddress,
-          userID: userData._id,
-          username: userData.username,
-          extra: {
-            accountStatus: userData.accountStatus,
-          },
+    return new Promise(async (resolve, reject) => {
+      try {
+        const body = await api.get(`/api/users/${userData._id}/personal`, {
+          token,
         });
-      });
-
-      // if (body.facebook) {
-      //   const accessToken = body.tokens.find(t => t.kind === 'fb').accessToken;
-      //   if (accessToken) {
-      //     store.set('FBToken', accessToken);
-      //     this.setState({ FBToken: accessToken });
-      //   }
-      // const VKaccessToken = body.tokens.find(t => t.kind === 'vk');
-      // if (VKaccessToken && VKaccessToken.accessToken) {
-      //   this.setState({ VKTokenSaved: true });
-      // }
-      navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-          console.debug(coords);
-          this.setState({
-            location: {
-              longitude: coords.longitude,
-              latitude: coords.latitude,
-            },
-            isLoggedIn: true,
-            loading: false,
-            hasError: false,
+        if (!this.canCreateDrop(body)) {
+          // Before uploading items and creating drops, please enter you shipping and card details on the mobile app
+          throw new Error(
+            'Будь ласка додайте спочатку інформацію щодо вашого відділення нової пошти і на яку картку мають зараховуватися кошти в налаштування'
+          );
+        }
+  
+        if (isProd) {
+          Sentry.configureScope(scope => {
+            scope.setUser({
+              email: userData.emailAddress,
+              userID: userData._id,
+              username: userData.username,
+              extra: {
+                accountStatus: userData.accountStatus,
+              },
+            });
           });
-          this.loadIntercom(body);
-        },
-        e => {
-          console.error(e);
-          this.alertForPermission();
-          this.setState({ errMsg: 'No location permission', hasError: true });
-        },
-        { enableHighAccuracy: false, maximumAge: 10000 }
-      );
-      return null;
-    } catch (err) {
-      console.error(err);
-      if (err.message === 'Invalid user') {
-        this.onLogout();
-        this.setState({ loading: false });
-        return err;
+        }
+  
+        // if (body.facebook) {
+        //   const accessToken = body.tokens.find(t => t.kind === 'fb').accessToken;
+        //   if (accessToken) {
+        //     store.set('FBToken', accessToken);
+        //     this.setState({ FBToken: accessToken });
+        //   }
+        // const VKaccessToken = body.tokens.find(t => t.kind === 'vk');
+        // if (VKaccessToken && VKaccessToken.accessToken) {
+        //   this.setState({ VKTokenSaved: true });
+        // }
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            console.debug(coords);
+            this.setState({
+              location: {
+                longitude: coords.longitude,
+                latitude: coords.latitude,
+              },
+              isLoggedIn: true,
+              loading: false,
+              hasError: false,
+            });
+            this.loadIntercom(body);
+            resolve();
+          },
+          e => {
+            console.error(e);
+            this.alertForPermission();
+            this.setState({ errMsg: 'No location permission', hasError: true });
+            reject(e);
+          },
+          { enableHighAccuracy: false, maximumAge: 10000 }
+        );
+      } catch (err) {
+        console.error(err);
+        if (err.message === 'Invalid user') {
+          this.onLogout();
+          this.setState({ loading: false });
+          reject(err);
+        }
+        this.setState({ errMsg: err.message, hasError: true });
+        reject(err);
       }
-      this.setState({ errMsg: err.message, hasError: true });
-      return err;
-    }
+    });
   };
 
   alertForPermission() {
