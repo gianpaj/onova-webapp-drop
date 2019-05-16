@@ -14,7 +14,7 @@ clone: # the 'clone' section
 pipelines:
   branches:
     master:
-    - step:
+      - step:
           name: Sentry Release
           image: getsentry/sentry-cli
           script:
