@@ -10,7 +10,7 @@ const analyticsEnabled = isProd;
 
 if (analyticsEnabled) {
   Sentry.init({
-    dsn: 'https://df9ece2e3379459c91ce8c7518e1cb9b@sentry.io/1384442',
+    dsn: 'https://c084c69a740f4c06b4635dd9edc87656@sentry.io/1460923',
   });
 }
 
