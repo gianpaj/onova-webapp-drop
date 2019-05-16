@@ -38,36 +38,35 @@ type Props = {
 };
 
 type State = {
-  categoryIds: Array<number>;
+  categoryIds: number;
   description: string;
   fileList: Array<any>;
   isUploading: boolean;
-  numberOfBrands: number;
   progress: number;
   price: string;
   ready: boolean;
   tags: Array<any>;
   tagsText: string;
   thumbnail: string;
-  typeIds: Array<number>;
+  typeIds: number;
 };
 
 // window.__TESTING__ = false;
 
 class ItemUploader extends React.Component<Props, State> {
+  numberOfBrands = 0;
   state = {
-    categoryIds: [],
+    categoryIds: -1,
     description: '',
     fileList: [] as Array<any>,
     isUploading: false,
-    numberOfBrands: 0,
     price: '',
     progress: 0,
     ready: false,
     tags: [],
     tagsText: '',
     thumbnail: '',
-    typeIds: [],
+    typeIds: -1,
   };
   dropzone: any;
   setProgressThrottled: any;
@@ -208,38 +207,56 @@ class ItemUploader extends React.Component<Props, State> {
   }
 
   changeTagsTest = (e: any) => {
-    const tagsText = e.target.value;
-    const textWithoutSeparators = tagsText.replace(/,|;| | \n/gi, '');
+    return new Promise(resolve => {
+      const tagsText = e.target.value;
+      const textWithoutSeparators = tagsText.replace(/,|;| | \n/gi, '');
 
-    const found = this.state.tags.some(r => brands.brands.indexOf(r) >= 0);
-    if (!found) this.setState({ numberOfBrands: 0 });
+      const textHasBeenPasted = tagsText.split(' ').filter((s: string) => Boolean(s)).length > 1;
+      if (textHasBeenPasted) {
+        const onBrandTags = tagsText.split(' ').filter((s: string) => Boolean(s) && this.onlyOneBrand(s));
+        const uniqueTags = new Set([...this.state.tags, ...onBrandTags]);
+        return this.setState(
+          {
+            tags: Array.from(uniqueTags),
+            tagsText: '',
+          },
+          () => resolve()
+        );
+      }
 
-    // if the tag is longer the maximum
-    // OR if it doesn't match the regex
-    if (
-      textWithoutSeparators.length > settings.MAX_LENGTH_PER_TAG ||
-      !settings.HASHTAG_REGEX.test(textWithoutSeparators)
-    )
-      return;
+      const found = this.state.tags.some(r => brands.brands.indexOf(r) >= 0);
+      if (!found) this.numberOfBrands = 0;
 
-    const lastTyped = tagsText.charAt(tagsText.length - 1);
-    const parseWhen = [',', ' ', ';', '\n'];
+      // if the tag is longer the maximum
+      // OR if it doesn't match the regex
+      if (
+        textWithoutSeparators.length > settings.MAX_LENGTH_PER_TAG ||
+        !settings.HASHTAG_REGEX.test(textWithoutSeparators)
+      )
+        return;
 
-    // if a separator was typed at the end of the tag
-    // AND the tag has the minimum length
-    if (
-      parseWhen.indexOf(lastTyped) > -1 &&
-      textWithoutSeparators.length >= settings.MIN_LENGTH_PER_TAG &&
-      this.state.tags.length < settings.MAX_TAGS &&
-      this.onlyOneBrand(this.state.tagsText)
-    ) {
-      const newTags = new Set([...this.state.tags, this.state.tagsText]);
-      return this.setState({
-        tags: Array.from(newTags),
-        tagsText: '',
-      });
-    }
-    this.setState({ tagsText: textWithoutSeparators });
+      const lastTyped = tagsText.charAt(tagsText.length - 1);
+      const parseWhen = [',', ' ', ';', '\n'];
+
+      // if a separator was typed at the end of the tag
+      // AND the tag has the minimum length
+      if (
+        parseWhen.indexOf(lastTyped) > -1 &&
+        textWithoutSeparators.length >= settings.MIN_LENGTH_PER_TAG &&
+        this.state.tags.length < settings.MAX_TAGS &&
+        this.onlyOneBrand(this.state.tagsText)
+      ) {
+        const newTags = new Set([...this.state.tags, this.state.tagsText]);
+        return this.setState(
+          {
+            tags: Array.from(newTags),
+            tagsText: '',
+          },
+          () => resolve()
+        );
+      }
+      this.setState({ tagsText: textWithoutSeparators });
+    });
   };
 
   /**
@@ -248,19 +265,23 @@ class ItemUploader extends React.Component<Props, State> {
   onlyOneBrand(text: string): boolean {
     text = text.toLowerCase();
     if (brands.brands.indexOf(text) === -1) return true;
-    if (brands.brands.indexOf(text) > -1 && this.state.numberOfBrands < settings.MAX_BRAND_TAGS) {
-      this.setState({ numberOfBrands: this.state.numberOfBrands + 1 });
+    if (brands.brands.indexOf(text) > -1 && this.numberOfBrands < settings.MAX_BRAND_TAGS) {
+      this.numberOfBrands++;
       return true;
     }
     return false;
   }
 
   handleClose = (removedTag: string) => {
-    const tags = this.state.tags.filter(tag => tag !== removedTag);
-    this.setState({ tags });
+    this.setState(prevState => {
+      const filteredTags = prevState.tags.filter(tag => tag !== removedTag);
+      const found = filteredTags.some(r => brands.brands.indexOf(r) >= 0);
+      if (!found) this.numberOfBrands = 0;
+      return { tags: filteredTags };
+    });
   };
 
-  onSubmit = (
+  onSubmit = async (
     values: any,
     {
       setSubmitting,
@@ -283,6 +304,11 @@ class ItemUploader extends React.Component<Props, State> {
     // formData.append('categoryIds', categoryIds.toString());
     // formData.append('typeIds', typeIds.toString());
     // if (tags.length) formData.append('tags', JSON.stringify(tags));
+
+    if (this.state.tagsText.length) {
+      await this.changeTagsTest({ target: { value: this.state.tagsText + ',' } });
+    }
+
     const data: any = {
       id: this.props.id,
       categoryIds: categoryIds.toString(),
@@ -296,7 +322,7 @@ class ItemUploader extends React.Component<Props, State> {
     console.debug(data);
     this.props.addItem(data);
     // for enable/disabling
-    this.setState({ price, description, categoryIds, typeIds, ready: true });
+    this.setState({ description, price, categoryIds, typeIds, ready: true });
     setSubmitting(true);
     this.dropzone.disable();
   };
@@ -322,12 +348,12 @@ class ItemUploader extends React.Component<Props, State> {
       // errors.description = 'Write a longer description';
     }
 
-    if (isNaN(categoryIds[0])) {
+    if (categoryIds < 0) {
       errors.categoryIds = "Обов'язково";
       // errors.categoryIds = 'Required';
     }
 
-    if (isNaN(typeIds[0])) {
+    if (typeIds < 0) {
       errors.typeIds = "Обов'язково";
       // errors.typeIds = 'Required';
     }
@@ -414,15 +440,15 @@ class ItemUploader extends React.Component<Props, State> {
 
   render() {
     const {
+      categoryIds,
+      description,
       fileList,
       isUploading,
+      price,
       progress,
       ready,
       tags,
       tagsText,
-      description,
-      categoryIds,
-      price,
       typeIds,
     } = this.state;
 
@@ -591,9 +617,9 @@ class ItemUploader extends React.Component<Props, State> {
                       flexWrap: 'wrap',
                       paddingBottom: 10,
                     }}>
-                    {tags.map((t, i) => (
+                    {tags.map(t => (
                       // eslint-disable-next-line react/jsx-no-bind
-                      <Tag key={i} closable={!isSubmitting} afterClose={() => this.handleClose(t)}>
+                      <Tag key={t} closable={!isSubmitting} onClose={() => this.handleClose(t)}>
                         {t}
                       </Tag>
                     ))}
