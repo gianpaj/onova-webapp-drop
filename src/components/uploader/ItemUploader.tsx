@@ -350,6 +350,7 @@ class ItemUploader extends React.Component<Props, State> {
   };
 
   setProgress = (perc: number) => {
+    if (perc === 100) this.setState({ isUploading: false });
     this.setState({ progress: perc });
   };
 
