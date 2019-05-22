@@ -595,8 +595,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
 
   renderPaymentIframe = () => {
     const { token, order, payment } = this.state;
-    // const strWindowFeatures = "menubar=no,location=no,resizable=yes,scrollbars=yes,status=no,width=800,height=640";
-    // window.open('/payment', 'payment_uapay', strWindowFeatures).focus();
 
     return (
       <PaymentPortal>
@@ -973,14 +971,6 @@ class PaymentPortal extends React.PureComponent<{}> {
     // STEP 4: append the container <div> (that has props.children appended to it) to the body of the new window
     if (this.externalWindow) {
       this.externalWindow.document.body.appendChild(this.containerEl);
-      // const self = this;
-      // tslint:disable-next-line: only-arrow-functions
-      // this.timer = window.setInterval(function() {
-      //   if (self.externalWindow && self.externalWindow.closed) {
-      //     clearInterval(self.timer);
-      //     self.props.callback();
-      //   }
-      // }, 500);
     }
   }
 
