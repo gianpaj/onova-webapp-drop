@@ -14,7 +14,7 @@ import isMobilePhone from 'validator/lib/isMobilePhone';
 import * as api from '../utility/api';
 import * as util from '../utility/Utility';
 
-import { GetCardId, Spinner } from '.';
+import { EnterCardInfo, Spinner } from '.';
 import { Payment } from '../pages';
 import { City, Department, Order, Payment as PaymentType, User } from '../types';
 import './CheckoutSidebar.scss';
@@ -657,7 +657,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
     return (
       <div className="payment-info">
         {gettingCardToken && (
-          <GetCardId onCardTokenRetrieved={this.onCardTokenRetrieved} onCancel={this.cancelGettingCardToken} />
+          <EnterCardInfo onCardTokenRetrieved={this.onCardTokenRetrieved} onCancel={this.cancelGettingCardToken} />
         )}
         {cardToken.length > 0 && (
           // @ts-ignore:disable-line

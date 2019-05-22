@@ -18,7 +18,7 @@ type Props = {
   onCardTokenRetrieved: (payload: any) => void;
 };
 
-export default class GetCardId extends Component<Props> {
+export default class EnterCardInfo extends Component<Props> {
   state = {
     loading: true,
     tokenForCardIFrame: '',
