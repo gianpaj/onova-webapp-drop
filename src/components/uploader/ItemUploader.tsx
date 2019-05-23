@@ -551,9 +551,9 @@ class ItemUploader extends React.Component<Props, State> {
                         <span>max 6 зображень</span>
                       </div>
                     )}
-                    {isUploading && (
+                    {(isUploading || progress > 0) && (
                       <div className="progress">
-                        <Progress animated bar value={progress} />
+                        <Progress color="old-blue" animated bar value={progress} />
                       </div>
                     )}
                     {!isSubmitting ? (

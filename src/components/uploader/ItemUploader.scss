@@ -120,8 +120,9 @@ textarea:disabled,
 }
 
 .progress {
-  height: 0.5rem;
+  height: 0.5rem !important;
   border-radius: 0;
+  margin-bottom: -3.5px;
 }
 
 .filepicker {

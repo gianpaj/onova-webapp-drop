@@ -4,8 +4,8 @@
 
 $theme-colors: (
   'primary': #000,
-  // 'secondary': #000,
-    'danger': #ff001e,
+  'danger': #ff001e,
+  'old-blue': #0074d9,
 );
 
 $grey: rgba(0, 0, 0, 0.65);
@@ -42,7 +42,7 @@ $grey: rgba(0, 0, 0, 0.65);
 // @import "~bootstrap/scss/badge";
 // @import "~bootstrap/scss/jumbotron";
 // @import "~bootstrap/scss/alert";
-// @import "~bootstrap/scss/progress";
+@import '~bootstrap/scss/progress';
 // @import "~bootstrap/scss/media";
 // @import "~bootstrap/scss/list-group";
 @import '~bootstrap/scss/close';
