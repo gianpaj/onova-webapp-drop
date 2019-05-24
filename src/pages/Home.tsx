@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { Spinner } from 'reactstrap';
 
 import { Header, ItemsList, StoreButtons } from '../components/index';
 import * as api from '../utility/api';
@@ -32,14 +33,21 @@ const counterInitialNum = Math.floor((+new Date() - aprilDay) / 10000 / 60) + 20
 function Home() {
   const [data, setData] = useState<Product[]>([]);
   const [counter, setCounter] = useState(counterInitialNum);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     try {
+      const timer = setTimeout(() => {
+        setLoading(true);
+      }, 1000);
       const result = await api.getProducts(`?limit=${LIMIT}&${tagsQueries}`);
+      clearTimeout(timer);
       setData(result);
     } catch (error) {
       console.error(error);
     }
+    // finally
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -55,7 +63,13 @@ function Home() {
       <Helmet title="Drop - Купуй та продавай одяг та аксесуари з телефону" />
       <Header />
       <StoreButtons classNames="pb-3 text-center" />
-      <ItemsList items={data} />
+      {loading ? (
+        <div className="text-center">
+          <Spinner color="dark" size="lg" />
+        </div>
+      ) : (
+        <ItemsList items={data} />
+      )}
       {data.length > 0 && (
         <p style={{ fontSize: 'xx-large' }} className="pb-4 text-center">
           . . .
