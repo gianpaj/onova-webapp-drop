@@ -21,8 +21,8 @@ const ReactDOMServer = require('react-dom/server');
 
 const brands = require('../../assets/brands.json');
 
-const MIN_WIDTH = 1440;
-const MIN_HEIGHT = 1440;
+const MIN_WIDTH = 1000;
+const MIN_HEIGHT = 1000;
 
 const componentConfig = {
   iconFiletypes: ['.jpg', '.png', '.gif'],
@@ -141,7 +141,7 @@ class ItemUploader extends React.Component<Props, State> {
     try {
       await this.checkImageDimensions(originalFile);
     } catch (error) {
-      return message.error('Зображення занадто малі, мін 1440 px');
+      return message.error('Зображення занадто малі, мін 1000 px');
     }
     this.setState({ isUploading: true, progress: 100 });
     new ImageCompressor(originalFile, {
@@ -506,7 +506,7 @@ class ItemUploader extends React.Component<Props, State> {
                       if (e && e.xhr && e.xhr.response) {
                         const res = JSON.parse(e.xhr.response);
                         if (res.message.startsWith('Image too small')) {
-                          return message.error('Зображення занадто малі, мін 1440 px');
+                          return message.error('Зображення занадто малі, мін 1000 px');
                         }
                       }
                       console.error(e);
