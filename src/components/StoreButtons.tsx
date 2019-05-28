@@ -29,4 +29,4 @@ StoreButtons.defaultProps = {
   classNames: '',
 };
 
-export default StoreButtons;
+export default React.memo(StoreButtons);

@@ -27,4 +27,4 @@ Header.defaultProps = {
   showTagline: true,
 };
 
-export default Header;
+export default React.memo(Header);

@@ -3,7 +3,7 @@ import React from 'react';
 import { User } from '../types';
 import './SocialIcons.scss';
 
-export default ({ user }: { user: User }) => {
+const SocialIcons = ({ user }: { user: User }) => {
   if (!user.socials) return null;
 
   const socialIcons = [];
@@ -28,3 +28,5 @@ export default ({ user }: { user: User }) => {
 
   return <div className="socials mt-4">{socialIcons}</div>;
 };
+
+export default React.memo(SocialIcons);

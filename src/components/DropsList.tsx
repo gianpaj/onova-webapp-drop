@@ -9,7 +9,7 @@ import { changeToGoogleApisThumb } from '../utility/Utility';
 import { Drop } from '../types';
 import './DropsList.scss';
 
-export default ({ drops }: { drops: Drop[] }) => {
+const DropsList = ({ drops }: { drops: Drop[] }) => {
   if (!drops) return null;
 
   const dropComponents = drops.map(drop => {
@@ -45,3 +45,5 @@ export default ({ drops }: { drops: Drop[] }) => {
 
   return <div className="row mx-md-auto no-gutters drops-list">{dropComponents}</div>;
 };
+
+export default React.memo(DropsList);

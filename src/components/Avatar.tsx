@@ -6,7 +6,7 @@ import { changeToHTTPS } from '../utility/Utility';
 import { User } from '../types';
 import './Avatar.scss';
 
-export default ({ user }: { user: User }) => {
+const Avatar = ({ user }: { user: User }) => {
   if (user.profilePic) {
     const url = changeToHTTPS(user.profilePic);
     return <img className="avatar" alt="avatar" src={url} />;
@@ -14,3 +14,5 @@ export default ({ user }: { user: User }) => {
 
   return <UserAvatar size="96" className="user-avatar-inner" name={user.username} />;
 };
+
+export default React.memo(Avatar);

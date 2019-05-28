@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { forceCheck } from 'react-lazyload';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 
 import { Avatar, DropsList, ItemsList, StoreButtons, SocialIcons } from '../components';

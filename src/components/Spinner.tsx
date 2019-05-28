@@ -7,4 +7,4 @@ const Spinner = ({ height = 400 }) => (
   </Pane>
 );
 
-export default Spinner;
+export default React.memo(Spinner);

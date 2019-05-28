@@ -593,15 +593,11 @@ export default class CheckoutSidebar extends Component<Props, State> {
     return body.data.payment;
   }
 
-  renderPaymentIframe = () => {
-    const { token, order, payment } = this.state;
-
-    return (
-      <PaymentPortal>
-        <Payment payment={payment} orderId={order.id} token={token} />
-      </PaymentPortal>
-    );
-  };
+  renderPaymentIframe = () => (
+    <PaymentPortal>
+      <Payment payment={this.state.payment} />
+    </PaymentPortal>
+  );
 
   onPaymentClose = async () => {
     try {

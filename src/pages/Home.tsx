@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, /*useRef,*/ useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Spinner } from 'reactstrap';
 
@@ -27,12 +27,12 @@ const tags = [
 
 const tagsQueries = tags.map(t => `tags[]=${t}`).join('&');
 
-const aprilDay = +new Date('2019-04-13');
-const counterInitialNum = Math.floor((+new Date() - aprilDay) / 10000 / 60) + 2000;
+// const aprilDay = +new Date('2019-04-13');
+// const counterInitialNum = Math.floor((+new Date() - aprilDay) / 10000 / 60) + 2000;
 
 function Home() {
   const [data, setData] = useState<Product[]>([]);
-  const [counter, setCounter] = useState(counterInitialNum);
+  // const [counter, setCounter] = useState(counterInitialNum);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
@@ -54,9 +54,9 @@ function Home() {
     fetchData();
   }, []);
 
-  useInterval(() => {
-    setCounter(counter + Math.floor(Math.random() * Math.floor(4)));
-  }, 2000);
+  // useInterval(() => {
+  //   setCounter(counter + Math.floor(Math.random() * Math.floor(4)));
+  // }, 2000);
 
   return (
     <div className="home-page">
@@ -123,30 +123,30 @@ function Home() {
   );
 }
 
-export default Home;
+export default React.memo(Home);
 
-const noop = () => {};
+// const noop = () => {};
 
-function useInterval(callback: () => void, delay: number | null, immediate?: boolean) {
-  const savedCallback = useRef(noop);
+// function useInterval(callback: () => void, delay: number | null, immediate?: boolean) {
+//   const savedCallback = useRef(noop);
 
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  });
+//   // Remember the latest callback.
+//   useEffect(() => {
+//     savedCallback.current = callback;
+//   });
 
-  // Execute callback if immediate is set.
-  useEffect(() => {
-    if (!immediate) return;
-    if (delay === null) return;
-    savedCallback.current();
-  }, [delay, immediate]);
+//   // Execute callback if immediate is set.
+//   useEffect(() => {
+//     if (!immediate) return;
+//     if (delay === null) return;
+//     savedCallback.current();
+//   }, [delay, immediate]);
 
-  // Set up the interval.
-  useEffect(() => {
-    if (delay === null) return undefined;
-    const tick = () => savedCallback.current();
-    const id = setInterval(tick, delay);
-    return () => clearInterval(id);
-  }, [delay]);
-}
+//   // Set up the interval.
+//   useEffect(() => {
+//     if (delay === null) return undefined;
+//     const tick = () => savedCallback.current();
+//     const id = setInterval(tick, delay);
+//     return () => clearInterval(id);
+//   }, [delay]);
+// }

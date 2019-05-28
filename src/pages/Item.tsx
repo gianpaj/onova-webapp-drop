@@ -163,29 +163,28 @@ class Item extends React.Component<IProps, IState> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function loadFreshChat(src: any) {
-  const tag = document.createElement('script');
-  tag.async = false;
-  tag.addEventListener('load', () => {
-    // @ts-ignore:disable-line
-    window.fcWidget.init({
-      config: {
-        content: {
-          placeholders: {
-            csat_reply: 'Add your comments here',
-            reply_field: 'Reply',
-            search_field: 'Search',
-          },
-        },
-      },
-      host: 'https://wchat.freshchat.com',
-      locale: 'uk',
-      token: '***REMOVED***',
-    });
-  });
-  tag.src = 'https://wchat.freshchat.com/js/widget.js';
-  document.getElementsByTagName('body')[0].appendChild(tag);
-}
+// function loadFreshChat(src: any) {
+//   const tag = document.createElement('script');
+//   tag.async = false;
+//   tag.addEventListener('load', () => {
+//     // @ts-ignore:disable-line
+//     window.fcWidget.init({
+//       config: {
+//         content: {
+//           placeholders: {
+//             csat_reply: 'Add your comments here',
+//             reply_field: 'Reply',
+//             search_field: 'Search',
+//           },
+//         },
+//       },
+//       host: 'https://wchat.freshchat.com',
+//       locale: 'uk',
+//       token: '***REMOVED***',
+//     });
+//   });
+//   tag.src = 'https://wchat.freshchat.com/js/widget.js';
+//   document.getElementsByTagName('body')[0].appendChild(tag);
+// }
 
 export default Item;

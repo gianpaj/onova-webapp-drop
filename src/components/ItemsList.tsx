@@ -33,4 +33,4 @@ function ItemsList(props: Props) {
   return <div className="row mx-md-auto no-gutters item-list">{itemsComponents}</div>;
 }
 
-export default ItemsList;
+export default React.memo(ItemsList);
