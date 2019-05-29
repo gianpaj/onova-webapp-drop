@@ -21,6 +21,7 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
   "@type": "Organization",
   "name": "Drop",
   "url": "https://drop.uno",
+  "sameAs": ["https://www.instagram.com/drop.uno/"],
   "logo": "https://drop.uno/img/drop-logo-512px.png"
 }
 </script>
