@@ -55,6 +55,7 @@ type State = {
 
 class ItemUploader extends React.Component<Props, State> {
   numberOfBrands = 0;
+  batchNum = 0;
   state = {
     categoryIds: -1,
     description: '',
@@ -124,7 +125,8 @@ class ItemUploader extends React.Component<Props, State> {
    * After successfully uploaded
    */
   success = (file: any) => {
-    if (this.state.fileList.length === 6) {
+    const { fileList } = this.state;
+    if (fileList.length === 6) {
       return message.warning("You can't upload more than 6 photos bro");
     }
     // get the filename of the stored file on the server
@@ -133,7 +135,7 @@ class ItemUploader extends React.Component<Props, State> {
     const thisFile = { ...file, URL: response.data };
     // console.log(thisFile);
     this.setState({
-      fileList: [...this.state.fileList, thisFile],
+      fileList: [...fileList, thisFile],
     });
   };
 
@@ -360,16 +362,10 @@ class ItemUploader extends React.Component<Props, State> {
     return errors;
   };
 
-  onRemoveFile = (index: number) => {
-    this.setState({
-      fileList: this.state.fileList.filter((_, i) => i !== index),
-    });
-  };
+  onRemoveFile = (index: number) => this.setState({ fileList: this.state.fileList.filter((_, i) => i !== index) });
 
   onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    this.setState({
-      fileList: arrayMove(this.state.fileList, oldIndex, newIndex),
-    });
+    this.setState({ fileList: arrayMove(this.state.fileList, oldIndex, newIndex) });
     setTimeout(() => {
       this.dropzone.enable();
     }, 300);
@@ -451,6 +447,7 @@ class ItemUploader extends React.Component<Props, State> {
       tagsText,
       typeIds,
     } = this.state;
+    const { id, token } = this.props;
 
     return (
       <Card bordered={false}>
@@ -486,20 +483,19 @@ class ItemUploader extends React.Component<Props, State> {
                 <DropzoneComponent
                   config={componentConfig}
                   eventHandlers={{
-                    init: (dz: any) => {
-                      this.dropzone = dz;
-                      // if (window.__TESTING__) this.mockItem(setFieldTouched);
-                    },
+                    // if (window.__TESTING__) this.mockItem(setFieldTouched);
+                    init: (dz: any) => (this.dropzone = dz),
                     success: this.success,
                     addedfile: this.addedfile,
                     processing: () => {
-                      // uploading starts
-                      console.time('upload time');
+                      // uploading starts of the selected file(s)
+                      console.time(`upload time ${id}-batch-${this.batchNum}`);
                       this.setState({ isUploading: true, progress: 0 });
                     },
                     totaluploadprogress: this.setProgressThrottled,
                     queuecomplete: () => {
-                      console.timeEnd('upload time');
+                      console.timeEnd(`upload time ${id}-batch-${this.batchNum}`);
+                      this.batchNum++;
                       this.setState({ isUploading: false, progress: 0 });
                     },
                     error: e => {
@@ -537,9 +533,7 @@ class ItemUploader extends React.Component<Props, State> {
                     ),
                     paramName: 'photo',
                     timeout: 0,
-                    headers: {
-                      Authorization: this.props.token,
-                    },
+                    headers: { Authorization: token },
                   }}>
                   <div
                     className={
