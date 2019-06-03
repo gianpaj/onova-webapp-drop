@@ -26,12 +26,21 @@ interface IState {
   drops: Drop[];
   items: Product[];
   user: UserDoc;
-  activeTab: number;
+  activeTab: Tab;
+}
+
+enum Tab {
+  About = -1,
+  Clothes,
+  Shoes,
+  Accessories,
+  All,
+  Drops,
 }
 
 export default class User extends React.Component<IProps, IState> {
   state = {
-    activeTab: 3,
+    activeTab: Tab.All,
     drops: [],
     items: [] as Product[],
     user: {} as UserDoc,
@@ -55,7 +64,7 @@ export default class User extends React.Component<IProps, IState> {
   };
 
   async fetchData() {
-    const { userName } = this.props.match.params;
+    const { userName, uuid } = this.props.match.params;
 
     try {
       const res = await Promise.all([
@@ -64,11 +73,8 @@ export default class User extends React.Component<IProps, IState> {
         api.get(`api/v2/drops/?username=${userName}`),
       ]);
 
-      // if there are no items
-      if (res[1].data.length < 1) {
-        // show the About tag
-        this.toggle(-1);
-      }
+      // if there are no items show the About tag
+      if (res[1].data.length < 1) this.toggle(Tab.About);
 
       // TODO: if there's only one category of items (accessories, etc.) set to that tab
 
@@ -129,9 +135,8 @@ export default class User extends React.Component<IProps, IState> {
         // drops: drops,
       });
 
-      if (this.props.match.params.uuid) {
-        this.toggle(4);
-      }
+      // link to a specific Drop
+      if (uuid) this.toggle(Tab.Drops);
     } catch (error) {
       // redirect to homepage
       this.props.history.push('/');
@@ -158,27 +163,29 @@ export default class User extends React.Component<IProps, IState> {
           <Nav tabs className="d-inline-flex mb-5">
             <NavItem className="px-sm-3">
               {/* eslint-disable react/jsx-no-bind */}
-              <NavLink className={activeTab === -1 ? 'active' : ''} onClick={() => this.toggle(-1)}>
+              <NavLink className={activeTab === Tab.About ? 'active' : ''} onClick={() => this.toggle(Tab.About)}>
                 Бренд
               </NavLink>
             </NavItem>
             {clothingItems.length > 0 && (
               <NavItem className="px-sm-3">
-                <NavLink className={activeTab === 0 ? 'active' : ''} onClick={() => this.toggle(0)}>
+                <NavLink className={activeTab === Tab.Clothes ? 'active' : ''} onClick={() => this.toggle(Tab.Clothes)}>
                   Одяг
                 </NavLink>
               </NavItem>
             )}
             {shoesItems.length > 0 && (
               <NavItem className="px-sm-3">
-                <NavLink className={activeTab === 1 ? 'active' : ''} onClick={() => this.toggle(1)}>
+                <NavLink className={activeTab === Tab.Shoes ? 'active' : ''} onClick={() => this.toggle(Tab.Shoes)}>
                   Взуття
                 </NavLink>
               </NavItem>
             )}
             {otherItems.length > 0 && (
               <NavItem className="px-sm-3">
-                <NavLink className={activeTab === 2 ? 'active' : ''} onClick={() => this.toggle(2)}>
+                <NavLink
+                  className={activeTab === Tab.Accessories ? 'active' : ''}
+                  onClick={() => this.toggle(Tab.Accessories)}>
                   Аксесуари
                 </NavLink>
               </NavItem>
@@ -200,9 +207,7 @@ export default class User extends React.Component<IProps, IState> {
                 top: 40,
               }}
               className="pt-1 px-0 px-sm-3">
-              {/* activeTab 3 */}
-              <NavLink onClick={() => this.toggle(3)}>
-                {/* eslint-enable react/jsx-no-bind */}
+              <NavLink onClick={() => this.toggle(Tab.All)}>
                 <h1 className="text-truncate" style={{ textTransform: 'initial' }}>
                   {user.displayName || user.username}
                 </h1>
