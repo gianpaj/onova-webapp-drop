@@ -48,7 +48,6 @@ type State = {
   tags: Array<any>;
   tagsText: string;
   thumbnail: string;
-  typeIds: number;
 };
 
 // window.__TESTING__ = false;
@@ -67,7 +66,6 @@ class ItemUploader extends React.Component<Props, State> {
     tags: [],
     tagsText: '',
     thumbnail: '',
-    typeIds: -1,
   };
   dropzone: any;
   setProgressThrottled: any;
@@ -111,7 +109,6 @@ class ItemUploader extends React.Component<Props, State> {
   //     description: 'description',
   //     photos: files,
   //     price: '1111',
-  //     typeIds: '2',
   //     tags: '["tag","tag2"]',
   //   };
   //   this.props.addItem(data);
@@ -293,7 +290,7 @@ class ItemUploader extends React.Component<Props, State> {
       // setErrors: (fields: { [field: string]: string }) => void,
     }
   ) => {
-    const { categoryIds, description, price, typeIds } = values;
+    const { categoryIds, description, price } = values;
     const { fileList, tags } = this.state;
 
     // this.setState({ tagsText: '' });
@@ -304,7 +301,6 @@ class ItemUploader extends React.Component<Props, State> {
     // formData.append('description', description);
     // formData.append('price', price.toString());
     // formData.append('categoryIds', categoryIds.toString());
-    // formData.append('typeIds', typeIds.toString());
     // if (tags.length) formData.append('tags', JSON.stringify(tags));
 
     if (this.state.tagsText.length) {
@@ -317,20 +313,19 @@ class ItemUploader extends React.Component<Props, State> {
       description,
       photos: fileList.map(f => f.URL),
       price: price.toString(),
-      typeIds: typeIds.toString(),
     };
     if (tags.length) data.tags = JSON.stringify(tags);
 
     console.debug(data);
     this.props.addItem(data);
     // for enable/disabling
-    this.setState({ description, price, categoryIds, typeIds, ready: true });
+    this.setState({ description, price, categoryIds, ready: true });
     setSubmitting(true);
     this.dropzone.disable();
   };
 
   onValidate = (values: any) => {
-    const { price, description, categoryIds, typeIds } = values;
+    const { price, description, categoryIds } = values;
 
     let errors: any = {};
 
@@ -355,10 +350,6 @@ class ItemUploader extends React.Component<Props, State> {
       // errors.categoryIds = 'Required';
     }
 
-    if (typeIds < 0) {
-      errors.typeIds = "Обов'язково";
-      // errors.typeIds = 'Required';
-    }
     return errors;
   };
 
@@ -385,7 +376,7 @@ class ItemUploader extends React.Component<Props, State> {
     resetForm: () => void,
     setFieldTouched: {
       (
-        field: 'description' | 'categoryIds' | 'price' | 'typeIds',
+        field: 'description' | 'categoryIds' | 'price',
         isTouched?: boolean | undefined,
         shouldValidate?: boolean | undefined
       ): void;
@@ -435,18 +426,7 @@ class ItemUploader extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      categoryIds,
-      description,
-      fileList,
-      isUploading,
-      price,
-      progress,
-      ready,
-      tags,
-      tagsText,
-      typeIds,
-    } = this.state;
+    const { categoryIds, description, fileList, isUploading, price, progress, ready, tags, tagsText } = this.state;
     const { id, token } = this.props;
 
     return (
@@ -456,7 +436,6 @@ class ItemUploader extends React.Component<Props, State> {
             description,
             categoryIds,
             price,
-            typeIds,
           }}
           validateOnChange={false}
           validate={this.onValidate}
@@ -475,9 +454,7 @@ class ItemUploader extends React.Component<Props, State> {
             isSubmitting,
             resetForm,
           }) => {
-            if (ready) {
-              return this.renderReady(resetForm, setFieldTouched);
-            }
+            if (ready) return this.renderReady(resetForm, setFieldTouched);
             return (
               <form onSubmit={handleSubmit}>
                 <DropzoneComponent
@@ -604,7 +581,7 @@ class ItemUploader extends React.Component<Props, State> {
                     value={values.description}
                   />
                 </Form.Item>
-                <div style={{ paddingVertical: 10, display: 'block' }}>
+                <div style={{ display: 'block' }}>
                   <div
                     style={{
                       flexDirection: 'row',
@@ -638,36 +615,27 @@ class ItemUploader extends React.Component<Props, State> {
                       }}
                       value={values.categoryIds}
                       style={{ display: 'block' }}>
-                      {ui.category_radio_grp_1.map((g, i) => (
-                        <Radio key={i} value={g.value}>
-                          {g.label}
-                        </Radio>
-                      ))}
-                    </Radio.Group>
-                  </Form.Item>
-                </div>
-                <div
-                  style={{
-                    paddingTop: 5,
-                    borderTopStyle: 'solid',
-                    borderTopWidth: 1,
-                    borderColor: '#f5f5f5',
-                  }}>
-                  <Form.Item validateStatus={touched.typeIds && errors.typeIds ? 'error' : ''}>
-                    <Radio.Group
-                      disabled={isSubmitting}
-                      // eslint-disable-next-line react/jsx-no-bind
-                      onChange={e => {
-                        setFieldTouched('typeIds', true);
-                        setFieldValue('typeIds', e.target.value);
-                      }}
-                      value={values.typeIds}
-                      style={{ display: 'block' }}>
-                      {ui.category_radio_grp_2.map((g, i) => (
-                        <Radio key={i} value={g.value}>
-                          {g.label}
-                        </Radio>
-                      ))}
+                      <>
+                        {ui.category_radio_grp_1.map((g, i) => (
+                          <Radio key={i} value={g.value}>
+                            {g.label}
+                          </Radio>
+                        ))}
+                        <div style={{ paddingTop: 5 }}>
+                          {ui.category_radio_grp_2.map((g, i) => (
+                            <Radio key={i} value={g.value}>
+                              {g.label}
+                            </Radio>
+                          ))}
+                        </div>
+                        <div style={{ paddingTop: 5 }}>
+                          {ui.category_radio_grp_3.map((g, i) => (
+                            <Radio key={i} value={g.value}>
+                              {g.label}
+                            </Radio>
+                          ))}
+                        </div>
+                      </>
                     </Radio.Group>
                   </Form.Item>
                 </div>

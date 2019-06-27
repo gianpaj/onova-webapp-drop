@@ -30,11 +30,22 @@ $red: #f5222d;
 
 .ant-radio-wrapper {
   margin-right: 0;
-  width: calc((100% - 32%) / 2);
+  width: (100% - 34% - 36%);
+
+  span {
+    font-size: small;
+  }
 }
 
-.ant-radio-wrapper:nth-child(3) {
-  width: 32%;
+.ant-radio-wrapper:nth-child(1),
+.ant-radio-wrapper:nth-child(4),
+.ant-radio-wrapper:nth-child(7) {
+  width: 34%;
+}
+.ant-radio-wrapper:nth-child(2),
+.ant-radio-wrapper:nth-child(5),
+.ant-radio-wrapper:nth-child(8) {
+  width: 36%;
 }
 
 span.ant-radio + * {
