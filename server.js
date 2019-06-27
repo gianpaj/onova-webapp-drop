@@ -41,7 +41,7 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 }
 </script>`;
 
-app.get(['/', '/uploader'], (req, res) => {
+function sendIndexPage(req, res) {
   // replace the special strings with server generated strings
   let html = htmlFile;
   html = html.replace(/\$OG_TITLE\$/g, 'Drop - Купуй та продавай одяг та аксесуари з телефону');
@@ -53,7 +53,9 @@ app.get(['/', '/uploader'], (req, res) => {
   html = html.replace('__$SCHEMA__', defaultSchema);
   html = html.replace(/__\$.*\$__/g, ''); // remove comments
   return res.status(200).send(html);
-});
+}
+
+app.get(['/', '/uploader'], (req, res) => sendIndexPage);
 
 app.use(express.static(path.resolve(__dirname, './dist')));
 
@@ -68,8 +70,8 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.get('/:userName([a-zA-Z0-9_.]{3,30}$)', (req, res) => {
-  axios(`/api/users/?username=${req.params.userName}`)
+app.get('/:username([a-zA-Z0-9_.]{3,30}$)', (req, res) => {
+  axios(`/api/users/?username=${req.params.username}`)
     .then(({ data }) => {
       let html = htmlFile;
       html = html.replace(
@@ -83,7 +85,7 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30}$)', (req, res) => {
       html = html.replace(/\$OG_IMAGE\$/g, data.profilePic || dropLogo);
       html = html.replace(/\$OG_IMAGE_WIDTH\$/g, data.profilePic ? '200' : '1200');
       html = html.replace(/\$OG_IMAGE_HEIGHT\$/g, data.profilePic ? '200' : '630');
-      html = html.replace(/\$OG_CANONICAL\$/g, `https://drop.uno/${req.params.userName}`);
+      html = html.replace(/\$OG_CANONICAL\$/g, `https://drop.uno/${req.params.username}`);
       html = html.replace(/__\$.*\$__/g, ''); // remove comments
       html = html.replace('__$SCHEMA__', '');
       res.status(200).send(html);
@@ -97,13 +99,13 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30}$)', (req, res) => {
     });
 });
 
-app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, res) => {
-  const { itemId, userName } = req.params;
+app.get('/:username([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, res) => {
+  const { itemId, username } = req.params;
 
   return axios(`/api/products/${itemId}`)
     .then(({ data: d }) => {
       const { data } = d;
-      if (data.seller.username !== userName) {
+      if (data.seller.username !== username) {
         throw new Error();
       }
       let html = htmlFile;
@@ -150,20 +152,20 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
   "offers": {
     "@type": "Offer",
     "itemOffered": "Product",
-    "url": "https://drop.uno/${userName}/${itemId}",
+    "url": "https://drop.uno/${username}/${itemId}",
     "priceCurrency": "UAH",
     "price": "${data.price}",
     "priceValidUntil": "2020-11-05",
     "availability": "https://schema.org/InStock",
     "seller": {
       "@type": "Organization",
-      "name": "${data.seller.displayName ? data.seller.displayName.trim() : userName}"
+      "name": "${data.seller.displayName ? data.seller.displayName.trim() : username}"
     }
   }
 }
 </script>`
       );
-      html = html.replace(/\$OG_CANONICAL\$/g, `https://drop.uno/${userName}/${itemId}`);
+      html = html.replace(/\$OG_CANONICAL\$/g, `https://drop.uno/${username}/${itemId}`);
       res.status(200).send(html);
     })
     .catch(e => {
@@ -175,19 +177,7 @@ app.get('/:userName([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
     });
 });
 
-app.get('/:userName([a-zA-Z0-9_.]{3,30})/drop/:itemId([a-zA-Z0-9_-]{7,14})', (req, res) => {
-  // replace the special strings with server generated strings
-  let html = htmlFile;
-  html = html.replace(/\$OG_TITLE\$/g, 'Drop - Купуй та продавай одяг та аксесуари з телефону');
-  html = html.replace(/\$OG_DESCRIPTION\$/g, 'Мобільним додатком для купівлі та продажу одягу');
-  html = html.replace(/\$OG_IMAGE\$/g, dropLogo);
-  html = html.replace(/\$OG_IMAGE_WIDTH\$/g, '1200');
-  html = html.replace(/\$OG_IMAGE_HEIGHT\$/g, '630');
-  html = html.replace(/\$OG_CANONICAL\$/g, 'https://drop.uno/');
-  html = html.replace('__$SCHEMA__', defaultSchema);
-  html = html.replace(/__\$.*\$__/g, ''); // remove comments
-  return res.status(200).send(html);
-});
+app.get('/:username([a-zA-Z0-9_.]{3,30})/drop/:itemId([a-zA-Z0-9_-]{7,14})', (req, res) => sendIndexPage);
 
 app.get('*', (req, res) => {
   let html = htmlFile;
