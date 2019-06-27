@@ -6,6 +6,7 @@ import { Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 
 import { Avatar, DropsList, ItemsList, StoreButtons, SocialIcons } from '../components';
 import * as api from '../utility/api';
+import { categories } from '../utility/ui';
 
 import { Drop, Product, User as UserDoc } from '../types';
 import './User.scss';
@@ -31,11 +32,8 @@ interface IState {
 
 enum Tab {
   About = -1,
-  Clothes,
-  Shoes,
-  Accessories,
-  All,
-  Drops,
+  All = -2,
+  Drops = -3,
 }
 
 export default class User extends React.Component<IProps, IState> {
@@ -52,14 +50,8 @@ export default class User extends React.Component<IProps, IState> {
 
   toggle = (tab: number) => {
     if (this.state.activeTab !== tab) {
-      this.setState({ activeTab: tab }, () => {
-        // hack to show tabs because react-lazyload is not activated for non-active tabs
-        forceCheck();
-        // if (tab > -1) {
-        //   window.scrollBy(0, 1);
-        //   window.scrollBy(0, -1);
-        // }
-      });
+      // hack to show tabs because react-lazyload is not activated for non-active tabs
+      this.setState({ activeTab: tab }, () => forceCheck());
     }
   };
 
@@ -149,10 +141,6 @@ export default class User extends React.Component<IProps, IState> {
 
     if (!drops || !Object.keys(user).length || !items) return null;
 
-    const clothingItems = items.filter(i => i.categoryIds[0] === 0);
-    const shoesItems = items.filter(i => i.categoryIds[0] === 1);
-    const otherItems = items.filter(i => i.categoryIds[0] === 2);
-
     let bio;
     if (user.bio) bio = user.bio.replace(uri_pattern, '').trim();
 
@@ -167,28 +155,19 @@ export default class User extends React.Component<IProps, IState> {
                 Бренд
               </NavLink>
             </NavItem>
-            {clothingItems.length > 0 && (
-              <NavItem className="px-sm-3">
-                <NavLink className={activeTab === Tab.Clothes ? 'active' : ''} onClick={() => this.toggle(Tab.Clothes)}>
-                  Одяг
-                </NavLink>
-              </NavItem>
-            )}
-            {shoesItems.length > 0 && (
-              <NavItem className="px-sm-3">
-                <NavLink className={activeTab === Tab.Shoes ? 'active' : ''} onClick={() => this.toggle(Tab.Shoes)}>
-                  Взуття
-                </NavLink>
-              </NavItem>
-            )}
-            {otherItems.length > 0 && (
-              <NavItem className="px-sm-3">
-                <NavLink
-                  className={activeTab === Tab.Accessories ? 'active' : ''}
-                  onClick={() => this.toggle(Tab.Accessories)}>
-                  Аксесуари
-                </NavLink>
-              </NavItem>
+            {categories.map(
+              cat =>
+                items.filter(i => i.categoryIds[0] === cat.value).length > 0 && (
+                  <NavItem key={cat.value}>
+                    <NavItem className="px-sm-3">
+                      <NavLink
+                        className={activeTab === cat.value ? 'active' : ''}
+                        onClick={() => this.toggle(cat.value)}>
+                        {cat.label}
+                      </NavLink>
+                    </NavItem>
+                  </NavItem>
+                )
             )}
             {drops.length > 0 && (
               <NavItem className="px-sm-3">
@@ -208,6 +187,7 @@ export default class User extends React.Component<IProps, IState> {
               }}
               className="pt-1 px-0 px-sm-3">
               <NavLink onClick={() => this.toggle(Tab.All)}>
+                {/* eslint-enable react/jsx-no-bind */}
                 <h1 className="text-truncate" style={{ textTransform: 'initial' }}>
                   {user.displayName || user.username}
                 </h1>
@@ -215,7 +195,7 @@ export default class User extends React.Component<IProps, IState> {
             </NavItem>
           </Nav>
           <TabContent activeTab={activeTab}>
-            <TabPane tabId={-1}>
+            <TabPane tabId={Tab.About}>
               <div className="px-5 user-data">
                 <Row noGutters>
                   <div className="col">
@@ -240,13 +220,20 @@ export default class User extends React.Component<IProps, IState> {
                 </Row> */}
               </div>
             </TabPane>
-            <TabPane tabId={0}>{clothingItems.length > 0 && <ItemsList items={clothingItems} />}</TabPane>
-            <TabPane tabId={1}>{shoesItems.length > 0 && <ItemsList items={shoesItems} />}</TabPane>
-            <TabPane tabId={2}>{otherItems.length > 0 && <ItemsList items={otherItems} />}</TabPane>
-            <TabPane tabId={3}>
+            {categories.map(cat => {
+              const catItems = items.filter(i => i.categoryIds[0] === cat.value);
+
+              if (!catItems) return null;
+              return (
+                <TabPane key={cat.value} tabId={cat.value}>
+                  <ItemsList items={catItems} />
+                </TabPane>
+              );
+            })}
+            <TabPane tabId={Tab.All}>
               <ItemsList items={items} />
             </TabPane>
-            <TabPane tabId={4}>{drops.length > 0 && <DropsList drops={drops} />}</TabPane>
+            <TabPane tabId={Tab.Drops}>{drops.length > 0 && <DropsList drops={drops} />}</TabPane>
           </TabContent>
 
           <footer className="py-3" />
