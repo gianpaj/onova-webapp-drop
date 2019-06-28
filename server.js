@@ -55,7 +55,7 @@ function sendIndexPage(req, res) {
   return res.status(200).send(html);
 }
 
-app.get(['/', '/uploader'], (req, res) => sendIndexPage);
+app.get(['/', '/uploader'], sendIndexPage);
 
 app.use(express.static(path.resolve(__dirname, './dist')));
 
