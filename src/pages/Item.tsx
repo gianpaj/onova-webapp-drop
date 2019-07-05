@@ -58,10 +58,10 @@ class Item extends React.Component<IProps, IState> {
     const { item } = this.state;
     try {
       const product = await api.getProduct(item.uuid);
-      if (product.status !== 'forsale') {
-        if (product.status === 'reserved') {
-          throw Error('Перевір через 15хв, товар може бути доступний');
-        }
+      if (product.status !== 'forsale' || product.quantity < 1) {
+        // if (product.status === 'reserved') {
+        //   throw Error('Перевір через 15хв, товар може бути доступний');
+        // }
         throw Error('Цю річ вже продано');
       }
       this.setState({ isSideBarVisible: true });
@@ -69,9 +69,7 @@ class Item extends React.Component<IProps, IState> {
       toaster.danger(error.message);
     }
     addBreadcrumb({
-      data: {
-        uuid: item.uuid,
-      },
+      data: { uuid: item.uuid },
       message: 'onBuy',
     });
   };

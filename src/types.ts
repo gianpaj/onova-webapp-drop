@@ -27,6 +27,8 @@ export interface Order {
   priceOfItem: string;
 }
 
+type ProductStatus = 'forsale' | 'reserved' | 'sold' | 'banned' | 'deleted';
+
 export interface Product {
   _id: string;
   categoryIds: number[];
@@ -35,8 +37,6 @@ export interface Product {
   currency: string;
   description: string;
   dropId: string;
-  likes: string[];
-  photoURIs: string[];
   location: {
     type: string;
     coordinates: {
@@ -45,14 +45,16 @@ export interface Product {
     };
   };
   locality: string;
+  photoURIs: string[];
   price: string;
-  reservedDate: Date;
+  quantity: number;
   seller: User;
-  status: string;
+  status: ProductStatus;
   tags?: string[]; // optional
   typeIds: number[];
-  weight: number;
+  updatedAt: Date;
   uuid: string;
+  weight: number;
 }
 
 export interface Drop {
