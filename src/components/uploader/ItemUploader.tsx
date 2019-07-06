@@ -44,6 +44,7 @@ type State = {
   isUploading: boolean;
   progress: number;
   price: string;
+  quantity: number;
   ready: boolean;
   tags: Array<any>;
   tagsText: string;
@@ -62,6 +63,7 @@ class ItemUploader extends React.Component<Props, State> {
     isUploading: false,
     price: '',
     progress: 0,
+    quantity: 1,
     ready: false,
     tags: [],
     tagsText: '',
@@ -290,8 +292,8 @@ class ItemUploader extends React.Component<Props, State> {
       // setErrors: (fields: { [field: string]: string }) => void,
     }
   ) => {
-    const { categoryIds, description, price } = values;
-    const { fileList, tags } = this.state;
+    const { categoryIds, description, price, quantity } = values;
+    const { fileList, tags, tagsText } = this.state;
 
     // this.setState({ tagsText: '' });
     // const formData = new FormData();
@@ -303,8 +305,8 @@ class ItemUploader extends React.Component<Props, State> {
     // formData.append('categoryIds', categoryIds.toString());
     // if (tags.length) formData.append('tags', JSON.stringify(tags));
 
-    if (this.state.tagsText.length) {
-      await this.changeTagsTest({ target: { value: this.state.tagsText + ',' } });
+    if (tagsText.length) {
+      await this.changeTagsTest({ target: { value: tagsText + ',' } });
     }
 
     const data: any = {
@@ -313,19 +315,20 @@ class ItemUploader extends React.Component<Props, State> {
       description,
       photos: fileList.map(f => f.URL),
       price: price.toString(),
+      quantity: parseInt(quantity),
     };
     if (tags.length) data.tags = JSON.stringify(tags);
 
     console.debug(data);
     this.props.addItem(data);
     // for enable/disabling
-    this.setState({ description, price, categoryIds, ready: true });
+    this.setState({ description, price, categoryIds, quantity, ready: true });
     setSubmitting(true);
     this.dropzone.disable();
   };
 
   onValidate = (values: any) => {
-    const { price, description, categoryIds } = values;
+    const { price, description, categoryIds, quantity } = values;
 
     let errors: any = {};
 
@@ -348,6 +351,11 @@ class ItemUploader extends React.Component<Props, State> {
     if (categoryIds < 0) {
       errors.categoryIds = "Обов'язково";
       // errors.categoryIds = 'Required';
+    }
+
+    if (quantity < 1) {
+      errors.quantity = 'Мінімальна кількість 1';
+      // errors.categoryIds = 'Minimum quantity 1';
     }
 
     return errors;
@@ -376,7 +384,7 @@ class ItemUploader extends React.Component<Props, State> {
     resetForm: () => void,
     setFieldTouched: {
       (
-        field: 'description' | 'categoryIds' | 'price',
+        field: 'description' | 'categoryIds' | 'price' | 'quantity',
         isTouched?: boolean | undefined,
         shouldValidate?: boolean | undefined
       ): void;
@@ -426,7 +434,18 @@ class ItemUploader extends React.Component<Props, State> {
   }
 
   render() {
-    const { categoryIds, description, fileList, isUploading, price, progress, ready, tags, tagsText } = this.state;
+    const {
+      categoryIds,
+      description,
+      fileList,
+      isUploading,
+      price,
+      quantity,
+      progress,
+      ready,
+      tags,
+      tagsText,
+    } = this.state;
     const { id, token } = this.props;
 
     return (
@@ -436,6 +455,7 @@ class ItemUploader extends React.Component<Props, State> {
             description,
             categoryIds,
             price,
+            quantity,
           }}
           validateOnChange={false}
           validate={this.onValidate}
@@ -552,6 +572,7 @@ class ItemUploader extends React.Component<Props, State> {
                   </div>
                 </DropzoneComponent>
                 <Form.Item validateStatus={touched.price && errors.price ? 'error' : ''}>
+                  {/* TODO: add in about commission % (same as in Mobile app) */}
                   <InputNumber
                     disabled={isSubmitting}
                     // eslint-disable-next-line react/jsx-no-bind
@@ -561,10 +582,28 @@ class ItemUploader extends React.Component<Props, State> {
                     onBlur={handleBlur}
                     // eslint-disable-next-line react/jsx-no-bind
                     onChange={v => setFieldValue('price', v)}
-                    // eslint-disable-next-line react/jsx-no-bind
                     // parser={(v: string | undefined) => v && parseInt(v.replace(/₴\s?|(,*)/g, ''))}
                     value={values.price ? parseInt(values.price) : undefined}
                   />
+                </Form.Item>
+                <Form.Item validateStatus={touched.quantity && errors.quantity ? 'error' : ''}>
+                  <Row>
+                    <Col className="d-inline-flex">
+                      <InputNumber
+                        disabled={isSubmitting}
+                        id="quantity"
+                        min={1}
+                        max={99}
+                        onBlur={handleBlur}
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onChange={v => setFieldValue('quantity', v)}
+                        value={Number.isInteger(values.quantity) ? values.quantity : undefined}
+                      />
+                      <Col className="align-self-center mt-3">
+                        <span>кількість</span>
+                      </Col>
+                    </Col>
+                  </Row>
                 </Form.Item>
                 <Form.Item validateStatus={touched.description && errors.description ? 'error' : ''}>
                   <TextareaItem
@@ -596,6 +635,8 @@ class ItemUploader extends React.Component<Props, State> {
                     ))}
                   </div>
                   <Input
+                    id="tag-search" // 'search' is to disable LastPass extension to autofill
+                    autoComplete="off"
                     size="small"
                     placeholder="#tags"
                     value={tagsText}
