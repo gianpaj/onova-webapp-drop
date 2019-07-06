@@ -44,28 +44,31 @@ const columns = [
     title: 'Фото',
     dataIndex: 'photoURIs',
     key: 'photoURIs',
-    render: (photoURIs: Array<string>) => (
-      <img style={{ width: 50, height: 50 }} src={photoURIs[0].replace('.jpg', '-thumb.jpg')} alt="thumb" />
+    render: (photoURIs: Array<string>, item: any) => (
+      <a href={`https://onova.co/${item.seller.username}/drop/${item.uuid}`} target="_blank" rel="noopener noreferrer">
+        <img style={{ width: 50, height: 50 }} src={photoURIs[0].replace('.jpg', '-thumb.jpg')} alt="thumb" />
+      </a>
     ),
   },
   {
     title: 'Статус',
-    dataIndex: 'lastFinishedAt',
-    key: 'lastFinishedAt',
-    render: (lastFinishedAt: Date) => <span>{lastFinishedAt ? 'Виставлено' : 'Заплановано'}</span>,
+    dataIndex: 'posted',
+    key: 'posted',
+    render: (posted: Date) => <span>{posted ? 'Виставлено' : 'Заплановано'}</span>,
   },
   {
     title: 'Запланований час',
-    dataIndex: 'nextRunAt',
-    key: 'nextRunAt',
-    render: (nextRunAt: string) => (
+    dataIndex: 'scheduledAt',
+    key: 'scheduledAt',
+    render: (scheduledAt: string) => (
       <span>
-        {moment(nextRunAt)
+        {moment(scheduledAt)
           .utcOffset(-new Date().getTimezoneOffset())
-          .format('DD-MM-YYYY h:mm:ss a')}
+          .format('YYYY-MM-DD HH:mm')}
       </span>
     ),
   },
+  // TODO: show number of subcribers
 ];
 
 export type Item = {
@@ -315,7 +318,7 @@ export default class Uploader extends React.Component {
             'Будь ласка додайте спочатку інформацію щодо вашого відділення нової пошти і на яку картку мають зараховуватися кошти в налаштування'
           );
         }
-  
+
         if (isProd) {
           Sentry.configureScope(scope => {
             scope.setUser({
@@ -328,7 +331,7 @@ export default class Uploader extends React.Component {
             });
           });
         }
-  
+
         // if (body.facebook) {
         //   const accessToken = body.tokens.find(t => t.kind === 'fb').accessToken;
         //   if (accessToken) {
@@ -667,7 +670,7 @@ export default class Uploader extends React.Component {
         const drop = data[j];
         for (let i = 0; i < drop.products.length; i++) {
           const prod = drop.products[i];
-          scheduled.push({ ...prod, key: j++ });
+          scheduled.push({ ...drop, ...prod, key: j++ });
         }
       }
       this.setState({ scheduled });
