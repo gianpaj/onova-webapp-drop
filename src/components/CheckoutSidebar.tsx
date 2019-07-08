@@ -238,7 +238,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
     } = this.state;
 
     if (areFeesLoading) {
-      return <Spinner />;
+      return <Spinner height={98} />;
     }
 
     const currency = 'грн';
@@ -570,7 +570,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
       await this.updateUserInfo(values);
       this.setState({ isLoadingPayment: true });
       const payment = await this.createPayment();
-      // TODO: if payment is lookup show Confirmation input field
+      // TODO: if payment is LOOKUP show Confirmation input field
       // else render Payment iframe
       this.setState({ payment });
       this.onNextStep();
