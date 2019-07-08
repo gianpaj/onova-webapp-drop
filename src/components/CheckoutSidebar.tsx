@@ -753,8 +753,59 @@ export default class CheckoutSidebar extends Component<Props, State> {
     return errors;
   }
 
+  renderButtons(formik: any) {
+    const { isInitiating, isLoadingPayment, step, gettingCardToken } = this.state;
+
+    return (
+      <>
+        {step === 1 && (
+          <Button
+            block
+            className={isInitiating ? Classes.SKELETON : ''}
+            color="primary"
+            disabled={!this.firstStepButtonIsEnabled()}
+            onClick={this.onNextStep}>
+            {/* onClick={() => this.setState({ step: 3 })}> */}
+            Далі
+          </Button>
+        )}
+
+        {step === 2 && !gettingCardToken && (
+          <Button
+            block
+            color="danger"
+            className={`${isInitiating ? Classes.SKELETON : ''} float-right mb-5 mt-2`}
+            disabled={formik.isSubmitting || isLoadingPayment || !this.payButtonIsEnabled()}
+            onClick={this.onFinalStep}>
+            Придбати
+          </Button>
+        )}
+
+        {step === 3 && (
+          <div className="d-flex justify-content-between">
+            <Button
+              className={isInitiating ? Classes.SKELETON : ''}
+              onClick={this.onPrevStep}
+              disabled={formik.isSubmitting || !this.payButtonIsEnabled() || gettingCardToken || isLoadingPayment}>
+              Назад
+            </Button>
+            <Button
+              color="primary"
+              className={`${isInitiating ? Classes.SKELETON : ''} float-right`}
+              disabled={formik.isSubmitting || !this.payButtonIsEnabled() || gettingCardToken || isLoadingPayment}
+              type="submit"
+              // @ts-ignore:disable-line
+              onClick={formik.handleSubmit}>
+              Придбати
+            </Button>
+          </div>
+        )}
+      </>
+    );
+  }
+
   render() {
-    const { isInitiating, isLoading, isLoadingPayment, isMobile, step, gettingCardToken, buyer } = this.state;
+    const { isLoading, isLoadingPayment, isMobile, step, gettingCardToken, buyer } = this.state;
 
     let firstName = '';
     let lastName = '';
@@ -791,11 +842,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
               {isLoading ? (
                 <Spinner />
               ) : (
-                // <PanelStack
-                //   initialPanel={this.state.currentPanelStack[0]}
-                //   onOpen={this.addToPanelStack}
-                //   onClose={this.removeFromPanelStack}
-                // />
                 <div className="checkout-sidebar">
                   <Card
                     alignItems="center"
@@ -837,57 +883,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
 
                             {isLoadingPayment && <Spinner height={202} />}
 
-                            {step === 1 && (
-                              <Button
-                                block
-                                className={isInitiating ? Classes.SKELETON : ''}
-                                color="primary"
-                                disabled={!this.firstStepButtonIsEnabled()}
-                                onClick={this.onNextStep}>
-                                Далі
-                              </Button>
-                            )}
-
-                            {step === 2 && !gettingCardToken && (
-                              <Button
-                                block
-                                color="danger"
-                                className={`${isInitiating ? Classes.SKELETON : ''} float-right mb-5 mt-2`}
-                                disabled={formik.isSubmitting || isLoadingPayment || !this.payButtonIsEnabled()}
-                                onClick={this.onFinalStep}>
-                                Придбати
-                              </Button>
-                            )}
-
-                            {step === 3 && (
-                              <div className="d-flex justify-content-between">
-                                <Button
-                                  className={isInitiating ? Classes.SKELETON : ''}
-                                  onClick={this.onPrevStep}
-                                  disabled={
-                                    formik.isSubmitting ||
-                                    !this.payButtonIsEnabled() ||
-                                    gettingCardToken ||
-                                    isLoadingPayment
-                                  }>
-                                  Назад
-                                </Button>
-                                <Button
-                                  color="primary"
-                                  className={`${isInitiating ? Classes.SKELETON : ''} float-right`}
-                                  disabled={
-                                    formik.isSubmitting ||
-                                    !this.payButtonIsEnabled() ||
-                                    gettingCardToken ||
-                                    isLoadingPayment
-                                  }
-                                  type="submit"
-                                  // @ts-ignore:disable-line
-                                  onClick={formik.handleSubmit}>
-                                  Придбати
-                                </Button>
-                              </div>
-                            )}
+                            {this.renderButtons(formik)}
                           </form>
                         );
                       }}
