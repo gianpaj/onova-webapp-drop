@@ -12,7 +12,7 @@ export const category_radio_grp_2 = [
 
 export const category_radio_grp_3 = [
   { label: 'Меблі', value: 20 },
-  { label: 'мистецтво', value: 21 },
+  { label: 'Мистецтво', value: 21 },
   { label: 'Побут', value: 22 },
 ];
 
