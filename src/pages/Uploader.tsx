@@ -24,8 +24,6 @@ declare global {
   }
 }
 
-const isProd = document.location.hostname === 'drop.uno';
-
 // const TIMEOUT_MESSAGE = 10 * 1000; // 10 seconds
 // const VK_TIMEOUT_MESSAGE = 10 * 1000; // 10 seconds
 // const VK_API_VERSION = "5.78";
@@ -107,11 +105,6 @@ type State = {
   view: string;
 };
 
-Sentry.init({
-  dsn: 'https://2f2f34d35cbd45e0b5c1b8056b00daeb@sentry.io/1340177',
-  enabled: isProd,
-});
-
 export default class Uploader extends React.Component {
   state = {
     emailAddress: '',
@@ -151,12 +144,14 @@ export default class Uploader extends React.Component {
 
   componentDidCatch(error: any, errorInfo: any) {
     this.setState({ hasException: error });
-    Sentry.withScope(scope => {
-      Object.keys(errorInfo).forEach(key => {
-        scope.setExtra(key, errorInfo[key]);
+    if (api.analyticsEnabled) {
+      Sentry.withScope(scope => {
+        Object.keys(errorInfo).forEach(key => {
+          scope.setExtra(key, errorInfo[key]);
+        });
+        Sentry.captureException(error);
       });
-      Sentry.captureException(error);
-    });
+    }
   }
 
   // initVKOpenAPI() {
@@ -268,7 +263,7 @@ export default class Uploader extends React.Component {
   };
 
   loadIntercom(userData: any) {
-    if (isProd) {
+    if (api.isProd) {
       window.Intercom('boot', {
         app_id: window.APP_ID,
         accountStatus: userData.accountStatus,
@@ -319,7 +314,7 @@ export default class Uploader extends React.Component {
           );
         }
 
-        if (isProd) {
+        if (api.analyticsEnabled) {
           Sentry.configureScope(scope => {
             scope.setUser({
               email: userData.emailAddress,
@@ -388,7 +383,7 @@ export default class Uploader extends React.Component {
   onLogout = () => {
     this.setState({ isLoggedIn: false });
     store.clearAll();
-    if (isProd) {
+    if (api.isProd) {
       window.Intercom('shutdown');
     }
   };
@@ -769,8 +764,10 @@ export default class Uploader extends React.Component {
               Вийти
             </Button>
           )}
-          {/* eslint-disable-next-line react/jsx-no-bind */}
-          {hasException && <button onClick={() => Sentry.showReportDialog()}>Report feedback</button>}
+          {hasException && api.analyticsEnabled && (
+            /* eslint-disable-next-line react/jsx-no-bind */
+            <button onClick={() => Sentry.showReportDialog()}>Report feedback</button>
+          )}
         </div>
       );
     }

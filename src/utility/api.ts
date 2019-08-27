@@ -5,6 +5,7 @@ axios.defaults.timeout = 20000;
 
 // export const isProd = false;
 export const isProd = true;
+export const analyticsEnabled = isProd && window.location.hostname !== 'localhost';
 
 let baseURL;
 if (isProd) {

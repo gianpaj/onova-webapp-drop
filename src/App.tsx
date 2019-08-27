@@ -2,16 +2,16 @@ import * as Sentry from '@sentry/browser';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { isProd } from './utility/api';
+import { analyticsEnabled } from './utility/api';
 
 import { Home, Item, NotFound, User, Uploader } from './pages';
-
-const analyticsEnabled = isProd;
 
 if (analyticsEnabled) {
   Sentry.init({
     dsn: 'https://c084c69a740f4c06b4635dd9edc87656@sentry.io/1460923',
   });
+} else {
+  console.warn('Sentry not enabled');
 }
 
 export default class App extends Component {
@@ -19,16 +19,18 @@ export default class App extends Component {
 
   componentDidCatch(error: any, errorInfo: { [x: string]: any }) {
     this.setState({ error });
-    Sentry.withScope(scope => {
-      Object.keys(errorInfo).forEach(key => {
-        scope.setExtra(key, errorInfo[key]);
+    if (analyticsEnabled) {
+      Sentry.withScope(scope => {
+        Object.keys(errorInfo).forEach(key => {
+          scope.setExtra(key, errorInfo[key]);
+        });
+        Sentry.captureException(error);
       });
-      Sentry.captureException(error);
-    });
+    }
   }
 
   render() {
-    if (this.state.error) {
+    if (this.state.error && analyticsEnabled) {
       return (
         <button type="button" onClick={Sentry.showReportDialog}>
           Report feedback
