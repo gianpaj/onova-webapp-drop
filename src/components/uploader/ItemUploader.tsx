@@ -157,13 +157,13 @@ class ItemUploader extends React.Component<Props, State> {
 
         const perc = (compressedFile.size * 100) / originalFile.size;
 
-        // Replace the original file if was compressed at least 95% (or 5% smaller)
+        // If the compressed file size is at least 95% of the original file (or 5% smaller)
         if (perc < 96) {
           console.debug('using compressed file');
           console.debug(`the compressed image is ${100 - perc}% smaller`);
           console.debug(`originalFile: ${originalFile.size / 1000} kb`);
           console.debug(`compressedFile: ${compressedFile.size / 1000} kb`);
-          var origFileIndex = this.dropzone.files.indexOf(originalFile);
+          const origFileIndex = this.dropzone.files.indexOf(originalFile);
           compressedFile.accepted = true;
           compressedFile.status = 'added';
           compressedFile.upload = {
@@ -513,7 +513,7 @@ class ItemUploader extends React.Component<Props, State> {
                   // please consult http://www.dropzonejs.com/#configuration
                   djsConfig={{
                     autoQueue: false,
-                    // autoProcessQueue: false,
+                    autoProcessQueue: false,
                     dictFileTooBig: 'The photo is too large, bro',
                     addRemoveLinks: false,
                     acceptedFiles: 'image/*',
