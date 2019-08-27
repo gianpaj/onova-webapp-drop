@@ -153,16 +153,11 @@ class ItemUploader extends React.Component<Props, State> {
       convertSize: 5 * 1000 * 1000,
       // accept: (file, done) => console.log(file, done),
       success: (compressedFile: any) => {
-        // console.log(compressedFile);
-
         const perc = (compressedFile.size * 100) / originalFile.size;
 
         // If the compressed file size is at least 95% of the original file (or 5% smaller)
         if (perc < 96) {
           console.debug('using compressed file');
-          console.debug(`the compressed image is ${100 - perc}% smaller`);
-          console.debug(`originalFile: ${originalFile.size / 1000} kb`);
-          console.debug(`compressedFile: ${compressedFile.size / 1000} kb`);
           const origFileIndex = this.dropzone.files.indexOf(originalFile);
           compressedFile.accepted = true;
           compressedFile.status = 'added';
@@ -174,6 +169,9 @@ class ItemUploader extends React.Component<Props, State> {
         } else {
           console.debug('using original file');
         }
+        console.debug(`the compressed image is ${100 - perc}% smaller`);
+        console.debug(`originalFile: ${originalFile.size / 1000} kb`);
+        console.debug(`compressedFile: ${compressedFile.size / 1000} kb`);
 
         this.dropzone.enqueueFile(compressedFile);
 
@@ -485,14 +483,15 @@ class ItemUploader extends React.Component<Props, State> {
                     success: this.success,
                     addedfile: this.addedfile,
                     processing: () => {
-                      // uploading starts of the selected file(s)
-                      console.time(`upload time ${id}-batch-${this.batchNum}`);
+                      // one file starts uploading
+                      // console.time(`upload time ${id}-batch-${this.batchNum}`);
                       this.setState({ isUploading: true, progress: 0 });
                     },
                     totaluploadprogress: this.setProgressThrottled,
-                    queuecomplete: () => {
-                      console.timeEnd(`upload time ${id}-batch-${this.batchNum}`);
-                      this.batchNum++;
+                    complete: () => {
+                      this.dropzone.processQueue(); // process next queued file
+                      // console.timeEnd(`upload time ${id}-batch-${this.batchNum}`);
+                      // this.batchNum++;
                       this.setState({ isUploading: false, progress: 0 });
                     },
                     error: e => {
