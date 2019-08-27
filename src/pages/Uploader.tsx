@@ -353,7 +353,6 @@ export default class Uploader extends React.Component {
             resolve();
           },
           e => {
-            console.error(e);
             this.alertForPermission();
             this.setState({ errMsg: 'No location permission', hasError: true });
             reject(e);
