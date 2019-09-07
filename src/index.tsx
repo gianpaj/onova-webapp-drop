@@ -2,7 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import areIntlLocalesSupported from 'intl-locales-supported';
 
+const localesMyAppSupports = ['uk-UA'];
+
+if (global.Intl) {
+  // Determine if the built-in `Intl` has the locale data we need.
+  if (!areIntlLocalesSupported(localesMyAppSupports)) {
+    // `Intl` exists, but it doesn't have the data we need, so load the
+    // polyfill and patch the constructors we need with the polyfill's.
+    const IntlPolyfill = require('intl');
+    Intl.NumberFormat = IntlPolyfill.NumberFormat;
+    Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  }
+} else {
+  // No `Intl`, so use and load the polyfill.
+  global.Intl = require('intl');
+}
+
+// eslint-disable-next-line import/first
 import App from './App';
+// eslint-disable-next-line import/first
 import './index.scss';
 // import * as serviceWorker from './serviceWorker';
 
@@ -21,19 +39,3 @@ ReactDOM.render(<App />, rootEl);
 //     ReactDOM.render(<NextApp />, rootEl);
 //   });
 // }
-
-const localesMyAppSupports = ['uk-UA'];
-
-if (global.Intl) {
-  // Determine if the built-in `Intl` has the locale data we need.
-  if (!areIntlLocalesSupported(localesMyAppSupports)) {
-    // `Intl` exists, but it doesn't have the data we need, so load the
-    // polyfill and patch the constructors we need with the polyfill's.
-    const IntlPolyfill = require('intl');
-    Intl.NumberFormat = IntlPolyfill.NumberFormat;
-    Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
-  }
-} else {
-  // No `Intl`, so use and load the polyfill.
-  global.Intl = require('intl');
-}
