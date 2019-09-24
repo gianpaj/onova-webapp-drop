@@ -23,7 +23,6 @@ export function formatCurrency(value: number, minDecimalPoints = 2) {
 
   return new Intl.NumberFormat('ua-UA', {
     minimumFractionDigits: minDecimalPoints,
-    // tslint:disable-next-line: object-literal-sort-keys
     maximumFractionDigits: 2,
   }).format(value);
 }

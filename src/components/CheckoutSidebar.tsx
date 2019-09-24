@@ -142,7 +142,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
       const { message } = error;
       if (message) {
         if (message === 'jwt expired' || message === 'Unauthorized web user') {
-          // tslint:disable-next-line:no-console
           console.debug('jwt expired');
           store.remove('token-web');
           this.initialize();
@@ -153,7 +152,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
           toaster.danger(message);
         }
       }
-      // tslint:disable-next-line:no-console
       console.error(error);
       this.onToggleSidebar();
     }
@@ -165,7 +163,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
     try {
       await api.put(`/api/orders/${order.id}`, { status: 'cancelled' }, { token });
     } catch (error) {
-      // tslint:disable-next-line:no-console
       console.error(error);
     }
   }
@@ -178,7 +175,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
       if (error.data && error.data.data) {
         const { data } = error.data;
         if (error.message === 'Duplicate order' && data.status === 'confirmed') {
-          // tslint:disable-next-line:no-console
           console.log(error);
         }
         if (data.status === 'pending' || data.status === 'cancelled') {
@@ -326,7 +322,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
         const shippingFee = await api.getShippingCosts(order.priceOfItem, order.id, department.id, token);
         this.setState({ shippingFee });
       } catch (error) {
-        // tslint:disable-next-line:no-console
         console.error(error);
         toaster.danger(error.message, { duration: 30 });
       }
@@ -435,7 +430,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
     try {
       await this.updateUserInfo(values);
     } catch (error) {
-      // tslint:disable-next-line:no-console
       console.error(error);
       toaster.danger(error.message);
       setSubmitting(false);
@@ -591,7 +585,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
         this.onPaymentClose();
       }, 1000);
     } catch (error) {
-      // tslint:disable-next-line: no-console
       console.error(error);
       toaster.danger(error.message);
       this.setState({ isLoadingPayment: false });
@@ -620,7 +613,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
         retryNum++;
         const { status } = await this.getPaymentStatus();
         transactionStatus = status;
-        // tslint:disable-next-line: no-console
         console.debug(status);
         await util.sleep(1000);
       } while (transactionStatus !== 'ua-finished' && retryNum < 240); // 4 mins
@@ -635,7 +627,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
       this.onNextStep();
     } catch (error) {
       toaster.danger(error.message);
-      // tslint:disable-next-line:no-console
       console.error(error);
     }
     this.setState({ isLoadingPayment: false });
