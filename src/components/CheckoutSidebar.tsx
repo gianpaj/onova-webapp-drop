@@ -546,9 +546,21 @@ export default class CheckoutSidebar extends Component<Props, State> {
   }
 
   firstStepButtonIsEnabled() {
-    const { errors }: { errors: FormFields } = this.thisFormik;
-    const { department, city } = this.state;
-    return !Object.keys(errors).length && department && department.id && city && city.id;
+    const { errors }: { errors: FormFields } = this.thisFormik,
+      { department, city } = this.state,
+      { lastName, firstName, email, mobileNumber } = this.thisFormik.values;
+
+    return (
+      !Object.keys(errors).length &&
+      department &&
+      department.id &&
+      city &&
+      city.id &&
+      email &&
+      mobileNumber &&
+      firstName &&
+      lastName
+    );
   }
 
   onCardTokenRetrieved = (cardToken: any) => this.setState({ cardToken, gettingCardToken: false });

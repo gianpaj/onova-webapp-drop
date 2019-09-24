@@ -9,6 +9,8 @@ export interface User {
   shippingAddress: {
     city: string;
     departmentNovaposhta: string;
+    firstName: string;
+    lastName: string;
   };
   bio: string;
   displayName: string;
