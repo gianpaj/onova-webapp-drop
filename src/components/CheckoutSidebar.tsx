@@ -349,11 +349,24 @@ export default class CheckoutSidebar extends Component<Props, State> {
     );
   };
 
-  filterSelectItem = (query: string, city: City) => {
+  filterSelectCity = (query: string, city: City) => {
     const cleanText = query.trim().replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
     const regex = new RegExp(cleanText, 'i');
     return regex.test(city.uk);
     // return city.uk.indexOf(query.toLowerCase()) >= 0;
+  };
+
+  filterSelectDepartment = (query: string, item: Department) => {
+    const cleanText = query.trim().replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const regex = new RegExp(cleanText, 'i');
+
+    // if typing a string
+    if (Number.isNaN(Number(cleanText))) return regex.test(item.uk);
+
+    // if typing a number
+    const matches = item.uk.match(/№(\w+)/);
+    if (matches) return regex.test(matches[1]);
+    return false;
   };
 
   renderSelectList = ({
@@ -369,6 +382,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
       .map(renderItem)
       .filter(item => item != null)
       .slice(0, LIMIT_BY);
+
     return <Menu ulRef={itemsParentRef}>{renderedItems}</Menu>;
   };
 
@@ -380,7 +394,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
         <Select
           inputProps={{ placeholder: 'Місто' }}
           itemListRenderer={this.renderSelectList}
-          itemPredicate={this.filterSelectItem}
+          itemPredicate={this.filterSelectCity}
           itemRenderer={this.renderItemSelect}
           items={cities}
           initialContent={<MenuItem disabled text="Місто" />}
@@ -405,7 +419,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
         <Select
           disabled={departments.length === 0}
           itemListRenderer={this.renderSelectList}
-          itemPredicate={this.filterSelectItem}
+          itemPredicate={this.filterSelectDepartment}
           itemRenderer={this.renderItemSelect}
           items={departments}
           noResults={<MenuItem disabled text="Обери місто." />}
