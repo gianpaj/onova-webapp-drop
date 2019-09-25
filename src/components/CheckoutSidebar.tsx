@@ -435,7 +435,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
           noResults={<MenuItem disabled text="Обери місто." />}
           onItemSelect={this.handleDepartmentChange}
           popoverProps={{ minimal: true, autoFocus: false, position: 'bottom' }}
-          inputProps={{ placeholder: 'Filter (translate)' }}>
+          inputProps={{ placeholder: 'Номер' }}>
           <ButtonBP
             className={isInitiating ? Classes.SKELETON : ''}
             disabled={departments.length === 0}
