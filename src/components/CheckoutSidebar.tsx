@@ -47,7 +47,6 @@ type State = {
   gettingCardToken: boolean;
   isInitiating: boolean;
   isLoading: boolean;
-  isLoadingPayment: boolean;
   isMobile: boolean;
   promptIsShown: boolean;
   order: Order;
@@ -55,6 +54,7 @@ type State = {
   shippingFee: string;
   step: number;
   token: string;
+  tryingToPay: boolean;
 };
 
 export default class CheckoutSidebar extends Component<Props, State> {
@@ -74,7 +74,6 @@ export default class CheckoutSidebar extends Component<Props, State> {
     gettingCardToken: true,
     isInitiating: true,
     isLoading: false,
-    isLoadingPayment: false,
     isMobile: window.innerWidth <= 500,
     promptIsShown: false,
     order: {} as Order,
@@ -84,6 +83,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
     shippingFee: '',
     step: 1, // starts from 1
     token: '',
+    tryingToPay: false,
   };
 
   componentWillMount() {
@@ -581,28 +581,27 @@ export default class CheckoutSidebar extends Component<Props, State> {
 
   cancelGettingCardToken = () => {
     this.onPrevStep();
-    this.setState({ gettingCardToken: false });
+    this.setState({ gettingCardToken: true });
   };
 
   onFinalStep = async () => {
     const { values }: { values: FormFields } = this.thisFormik;
     try {
       await this.updateUserInfo(values);
-      this.setState({ isLoadingPayment: true });
-      const payment = await this.createPayment();
+      this.setState({ tryingToPay: true });
       // TODO: if payment is LOOKUP show Confirmation input field
       // else render Payment iframe
       this.setState({ payment });
       this.onNextStep();
-      // after 1 second start the process of waiting until the user has confirmed the payment in the new window
-      setTimeout(() => {
-        this.onPaymentClose();
-      }, 1000);
+
+      await this.confirmPayment();
     } catch (error) {
       console.error(error);
       toaster.danger(error.message);
-      this.setState({ isLoadingPayment: false });
+
+      this.setState({ step: 1, gettingCardToken: true, cardToken: '', cvc: '' });
     }
+    this.setState({ tryingToPay: false });
   };
 
   async createPayment(): Promise<any> {
@@ -612,38 +611,49 @@ export default class CheckoutSidebar extends Component<Props, State> {
     return body.data.payment;
   }
 
-  renderPaymentIframe = () => (
-    <PaymentPortal>
-      <Payment payment={this.state.payment} />
-    </PaymentPortal>
-  );
+  renderPaymentIframe = () => {
+    return (
+      <NewWindow title="UAPay Платежі" onBlock={this.onPopupBlock} onUnload={this.onPopupClose}>
+        <Payment order={this.state.order} token={this.state.token} cvc={this.state.cvc} />
+      </NewWindow>
+    );
+  };
 
-  onPaymentClose = async () => {
+  onPopupClose = () => this.setState({ tryingToPay: false });
+
+  confirmPayment = async () => {
+    const retryMax = 4 * 60; // ~4 mins + the time for the Onova API to return (which queries UAPAY)
     try {
       // retry for x amount of times with 1 sec in between until payment status is finished
       let retryNum = 0;
       let transactionStatus;
+      // after 3 seconds start the process of waiting until the user has confirmed the payment in the new window
+      await util.sleep(3000);
       do {
-        retryNum++;
         const { status } = await this.getPaymentStatus();
         transactionStatus = status;
-        console.debug(status);
+        console.debug('transactionStatus', status, 'tryingToPay', this.state.tryingToPay);
         await util.sleep(1000);
-      } while (transactionStatus !== 'ua-finished' && retryNum < 240); // 4 mins
+        retryNum++;
+      } while (transactionStatus !== 'ua-finished' && retryNum < retryMax && this.state.tryingToPay);
 
       // TODO: handle transaction has been already 'paid'
       // if error.code == 'NOT_ALLOWED'
       // return to previous screen (Checkout)
 
-      if (transactionStatus !== 'ua-finished') {
+      if (retryNum >= retryMax) {
         throw new Error('Timeout issue confirming payment finished');
       }
-      this.onNextStep();
-    } catch (error) {
-      toaster.danger(error.message);
-      console.error(error);
+      if (transactionStatus !== 'ua-finished') {
+        throw new Error('Payment cancelled');
+      }
+    } catch (e) {
+      if (e.message === '3DS escaped') {
+        throw new Error('3DS payment confirmation was cancelled');
+      }
+      throw e;
     }
-    this.setState({ isLoadingPayment: false });
+    this.onNextStep();
   };
 
   renderSuccess() {
@@ -771,7 +781,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
   }
 
   renderButtons(formik: any) {
-    const { isInitiating, isLoadingPayment, step, gettingCardToken } = this.state;
+    const { isInitiating, tryingToPay, step, gettingCardToken } = this.state;
 
     return (
       <>
@@ -791,8 +801,8 @@ export default class CheckoutSidebar extends Component<Props, State> {
           <Button
             block
             color="danger"
-            className={`${isInitiating ? Classes.SKELETON : ''} float-right mb-5 mt-2`}
-            disabled={formik.isSubmitting || isLoadingPayment || !this.payButtonIsEnabled()}
+            className="float-right mb-5 mt-2"
+            disabled={formik.isSubmitting || tryingToPay || !this.payButtonIsEnabled()}
             onClick={this.onFinalStep}>
             Придбати
           </Button>
@@ -801,15 +811,14 @@ export default class CheckoutSidebar extends Component<Props, State> {
         {step === 3 && (
           <div className="d-flex justify-content-between">
             <Button
-              className={isInitiating ? Classes.SKELETON : ''}
               onClick={this.onPrevStep}
-              disabled={formik.isSubmitting || !this.payButtonIsEnabled() || gettingCardToken || isLoadingPayment}>
+              disabled={formik.isSubmitting || !this.payButtonIsEnabled() || gettingCardToken || tryingToPay}>
               Назад
             </Button>
             <Button
               color="primary"
-              className={`${isInitiating ? Classes.SKELETON : ''} float-right`}
-              disabled={formik.isSubmitting || !this.payButtonIsEnabled() || gettingCardToken || isLoadingPayment}
+              className="float-right"
+              disabled={formik.isSubmitting || !this.payButtonIsEnabled() || gettingCardToken}
               type="submit"
               // @ts-ignore:disable-line
               onClick={formik.handleSubmit}>
@@ -822,7 +831,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
   }
 
   render() {
-    const { isLoading, isLoadingPayment, isMobile, step, gettingCardToken, buyer } = this.state;
+    const { isLoading, tryingToPay, isMobile, step, gettingCardToken, buyer } = this.state;
 
     let firstName = '';
     let lastName = '';
@@ -894,11 +903,11 @@ export default class CheckoutSidebar extends Component<Props, State> {
                         return (
                           <form onSubmit={formik.handleSubmit}>
                             {step === 1 && this.renderInfoForm()}
-                            {step === 2 && !isLoadingPayment && this.renderPaymentForm()}
+                            {step === 2 && !tryingToPay && this.renderPaymentForm()}
                             {step === 3 && this.renderPaymentIframe()}
                             {step === 4 && this.renderSuccess()}
 
-                            {isLoadingPayment && <Spinner height={202} />}
+                            {tryingToPay && <Spinner height={202} />}
 
                             {this.renderButtons(formik)}
                           </form>
