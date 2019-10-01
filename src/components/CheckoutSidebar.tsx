@@ -21,7 +21,7 @@ import './CheckoutSidebar.scss';
 
 const cyrillicRegex = /^$|^[\u0400-\u04FF\s]+$/;
 
-const LIMIT_BY = 20;
+// const LIMIT_BY = 20;
 
 type FormFields = {
   firstName?: string;
