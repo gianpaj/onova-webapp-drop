@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Component } from 'react';
-
+import { List } from 'react-virtualized';
 import { Button as ButtonBP, Classes, Icon, Menu, MenuItem } from '@blueprintjs/core';
 import { Select } from '@blueprintjs/select';
 import { configureScope } from '@sentry/browser';
@@ -378,12 +378,21 @@ export default class CheckoutSidebar extends Component<Props, State> {
     itemsParentRef: (ref: HTMLElement | null) => void;
     renderItem: (item: any, index: number) => JSX.Element | null;
   }) => {
-    const renderedItems = items
-      .map(renderItem)
-      .filter(item => item != null)
-      .slice(0, LIMIT_BY);
+    const renderedItems = items.map(renderItem).filter(item => item != null);
 
-    return <Menu ulRef={itemsParentRef}>{renderedItems}</Menu>;
+    function rowRenderer(args: any) {
+      return (
+        <div key={args.key} style={args.style}>
+          {renderedItems[args.index]}
+        </div>
+      );
+    }
+
+    return (
+      <Menu ulRef={itemsParentRef}>
+        <List width={208} height={250} rowCount={renderedItems.length} rowHeight={25} rowRenderer={rowRenderer} />
+      </Menu>
+    );
   };
 
   renderCityAutocomplete() {
