@@ -658,7 +658,7 @@ export default class Uploader extends React.Component {
       const { data } = await api.get(`/api/v2/drops/?username=${userData.username}`, {
         token,
       });
-      let scheduled = [];
+      const scheduled = [];
       // get each product of each drop
       for (let j = 0; j < data.length; j++) {
         const drop = data[j];

@@ -108,6 +108,9 @@ app.get('/:username([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
       if (data.seller.username !== username) {
         throw new Error();
       }
+      if (data.status !== 'forsale') {
+        throw new Error('not for sale')
+      }
       let html = htmlFile;
       let title,
         trimDescription,
@@ -169,7 +172,7 @@ app.get('/:username([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
       res.status(200).send(html);
     })
     .catch(e => {
-      if (e.message === 'Request failed with status code 400') {
+      if (e.message === 'Request failed with status code 400' || e.message === 'not for sale') {
         return res.status(404).send('Item not found');
       }
       console.error(e);
