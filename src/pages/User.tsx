@@ -158,14 +158,10 @@ export default class User extends React.Component<IProps, IState> {
             {categories.map(
               cat =>
                 items.filter(i => i.categoryIds[0] === cat.value).length > 0 && (
-                  <NavItem key={cat.value}>
-                    <NavItem className="px-sm-3">
-                      <NavLink
-                        className={activeTab === cat.value ? 'active' : ''}
-                        onClick={() => this.toggle(cat.value)}>
-                        {cat.label}
-                      </NavLink>
-                    </NavItem>
+                  <NavItem key={cat.value} className="px-sm-3">
+                    <NavLink className={activeTab === cat.value ? 'active' : ''} onClick={() => this.toggle(cat.value)}>
+                      {cat.label}
+                    </NavLink>
                   </NavItem>
                 )
             )}
