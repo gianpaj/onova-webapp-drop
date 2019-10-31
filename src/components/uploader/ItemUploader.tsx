@@ -212,11 +212,19 @@ class ItemUploader extends React.Component<Props, State> {
 
       const textHasBeenPasted = tagsText.split(' ').filter((s: string) => Boolean(s)).length > 1;
       if (textHasBeenPasted) {
-        const onBrandTags = tagsText.split(' ').filter((s: string) => Boolean(s) && this.onlyOneBrand(s));
+        const onBrandTags = tagsText
+          .split(' ')
+          .filter(
+            (s: string) =>
+              Boolean(s) &&
+              settings.HASHTAG_REGEX.test(s) &&
+              s.length < settings.MAX_LENGTH_PER_TAG &&
+              this.onlyOneBrand(s)
+          );
         const uniqueTags = new Set([...this.state.tags, ...onBrandTags]);
         return this.setState(
           {
-            tags: Array.from(uniqueTags),
+            tags: Array.from(uniqueTags).slice(0, settings.MAX_TAGS),
             tagsText: '',
           },
           () => resolve()
