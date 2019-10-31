@@ -19,7 +19,7 @@ export default {
   USERNAME_REGEX: /^$|^[a-zA-Z0-9_.]+$/,
   PRICE_REGEX: /^$|^(\b[\d]+[.]?[\d]{0,2})$/,
   // also match white space
-  HASHTAG_REGEX: /^$|^[a-zA-Z\u0400-\u04FF0-9]+$/,
+  HASHTAG_REGEX: /^$|^[a-zA-Z\u0400-\u04FF0-9_]+$/,
   // INSTABUG_TOKEN: '***REMOVED***',
   // BRAINTREE_TOKENIZATION_KEY: 'sandbox_45rbtwk4_wpk6jkwxv5kpqp58',
   MIN_PRICE: 150, // valid including
