@@ -633,16 +633,18 @@ class ItemUploader extends React.Component<Props, State> {
                       </Tag>
                     ))}
                   </div>
-                  <Input
-                    id="tag-search" // 'search' is to disable LastPass extension to autofill
-                    autoComplete="off"
-                    size="small"
-                    placeholder="#tags"
-                    value={tagsText}
-                    onChange={this.changeTagsTest}
-                    disabled={isSubmitting}
-                    style={{ width: '100%' }}
-                  />
+                  <Form.Item validateStatus={tags.length >= settings.MAX_TAGS ? 'error' : ''}>
+                    <Input
+                      id="tag-search" // 'search' is to disable LastPass extension to autofill
+                      autoComplete="off"
+                      size="small"
+                      placeholder="#tags"
+                      value={tagsText}
+                      onChange={this.changeTagsTest}
+                      disabled={isSubmitting || tags.length >= settings.MAX_TAGS}
+                      style={{ width: '100%' }}
+                    />
+                  </Form.Item>
                 </div>
                 <div style={{ paddingTop: 10, paddingBottom: 5 }}>
                   <Form.Item validateStatus={touched.categoryIds && errors.categoryIds ? 'error' : ''}>
