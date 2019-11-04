@@ -174,12 +174,10 @@ export default class User extends React.Component<IProps, IState> {
             )}
             <NavItem
               style={{
-                border: 0,
-                height: '4em',
                 left: 0,
                 position: 'absolute',
                 right: 0,
-                top: 40,
+                top: 52,
               }}
               className="pt-1 px-0 px-sm-3">
               <NavLink onClick={() => this.toggle(Tab.All)}>
