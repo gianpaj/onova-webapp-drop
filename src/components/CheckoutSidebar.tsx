@@ -118,7 +118,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
     try {
       const token = await this.createOrGetToken();
 
-      const [order, cities, buyer] = await Promise.all([
+      const [order, cities, buyer]: [Order, City[], User] = await Promise.all([
         this.getOrder(this.props.itemUuid, token),
         api.getCities(token),
         api.getWebUser(token),
