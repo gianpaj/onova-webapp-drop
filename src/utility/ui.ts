@@ -1,19 +1,8 @@
-export const category_radio_grp_1 = [
-  { label: 'Чоловіче', value: 0 },
-  { label: 'Жіноче', value: 1 },
-  { label: 'Взуття', value: 2 },
-];
+/* eslint-disable @typescript-eslint/camelcase */
+export const category_radio_grp_1 = [{ label: 'Бакалія', value: 30 }, { label: 'Чай та кава', value: 31 }];
 
-export const category_radio_grp_2 = [
-  { label: 'Прикраси', value: 10 },
-  { label: 'Сумки', value: 11 },
-  { label: 'Аксесуари', value: 12 },
-];
+export const category_radio_grp_2 = [{ label: 'Снеки', value: 32 }, { label: 'Оригінальна продукція', value: 34 }];
 
-export const category_radio_grp_3 = [
-  { label: 'Меблі', value: 20 },
-  { label: 'Мистецтво', value: 21 },
-  { label: 'Побут', value: 22 },
-];
+export const category_radio_grp_3 = [{ label: 'Напої', value: 33 }, { label: "Здоров'я та краса", value: 35 }];
 
 export const categories = [...category_radio_grp_1, ...category_radio_grp_2, ...category_radio_grp_3];
