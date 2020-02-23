@@ -3,6 +3,7 @@ import { Button, Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import './Login.scss';
+import StoreButtons from '../StoreButtons';
 
 export interface IProps extends FormComponentProps {
   onLogin: (emailAddress: string, password: string) => Promise<any>;
@@ -71,7 +72,7 @@ class Login extends React.Component<IProps, State> {
               color: 'white',
               marginTop: 30,
             }}>
-            Завантажувач колекцій
+            Завантажувач Дропів
           </span>
         </div>
         <div
@@ -122,12 +123,17 @@ class Login extends React.Component<IProps, State> {
                 Увійти
               </Button>
             </Form.Item>
-            <p>Створити профіль можна з додатку</p>
           </Form>
+        </div>
+        <div className="text-center mx-auto" style={{ maxWidth: 320 }}>
+          <p>Створити профіль з мобільного додатку</p>
+          <StoreButtons classNames="mx-auto no-gutters" />
         </div>
       </div>
     );
   }
 }
 
+// https://github.com/ant-design/ant-design/pull/16242
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default Form.create()(Login) as any;
