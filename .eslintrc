@@ -1,14 +1,33 @@
 {
-  "extends": "react-app",
+  "settings": {
+    "react": {
+      "version": "detect" // React version.
+    }
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "warnOnUnsupportedTypeScriptVersion": true
+  },
   "env": {
     "browser": true,
     "jest": true,
     "node": true
   },
+  "plugins": ["react", "@typescript-eslint", "prettier", "import", "react-hooks", "jsx-a11y"],
   "rules": {
     "arrow-parens": 0,
     "arrow-body-style": 0,
-    "comma-dangle": [2, "always-multiline"],
     "global-require": 0,
     "import/no-dynamic-require": 0,
     "import/no-extraneous-dependencies": 0,
@@ -22,6 +41,10 @@
     "react/forbid-prop-types": 0,
     "react/jsx-no-bind": 2,
     "react/jsx-filename-extension": [2, { "extensions": [".ts", ".tsx"] }],
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "@typescript-eslint/interface-name-prefix": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/ban-ts-ignore": 0,
+    "@typescript-eslint/explicit-function-return-type": 0
   }
 }
