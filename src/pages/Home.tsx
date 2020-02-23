@@ -94,20 +94,24 @@ function Home() {
           <img style={{ width: '65px' }} alt="uapay-logo" className="px-2" src={require('../images/uapay.png')} />
         </div>
         <div>
-          <a rel="noopener noreferrer" title="FAQ" href="https://drop.uno/faq.html" target="_blank">
+          <a
+            rel="noopener noreferrer"
+            title="FAQ"
+            href="https://telegra.ph/Poshiren%D1%96-zapitannya-02-22"
+            target="_blank">
             Поширені запитання
           </a>{' '}
           <a
             rel="noopener noreferrer"
             title="Safe purchase rules"
-            href="https://drop.uno/safe-purchase-rules.html"
+            href="https://telegra.ph/Pravila-Bezpechnoi-ugodi-02-22"
             target="_blank">
             Безпечна Угода
           </a>{' '}
           <a
             rel="noopener noreferrer"
             title="Terms and conditions"
-            href="https://drop.uno/terms-and-condition.html"
+            href="https://telegra.ph/UMOVI-NADANNYA-POSLUG-02-22"
             target="_blank">
             Оферта
           </a>{' '}

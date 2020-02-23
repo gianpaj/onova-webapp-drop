@@ -762,7 +762,7 @@ export default class CheckoutSidebar extends Component<Props, State> {
           публічним договором про надання послуг по організації перевезення відправлень,
         </a>{' '}
         <span>а також приймаєте </span>
-        <a target="_blank" rel="noopener noreferrer" href="https://drop.uno/safe-purchase-rules.html">
+        <a target="_blank" rel="noopener noreferrer" href="https://telegra.ph/Pravila-Bezpechnoi-ugodi-02-22">
           Правила надання сервісу Безпечна покупка.
         </a>
       </div>

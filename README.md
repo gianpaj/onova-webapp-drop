@@ -1,6 +1,6 @@
 # [Drop webapp](https://drop.uno)
 
-## Instructions for static html pages (faq.html, privacy-policy.html and terms)
+<!-- ## Instructions for static html pages (faq.html, privacy-policy.html and terms)
 
 1. Update the `faq.src.html` with your own changes.
 
@@ -16,7 +16,7 @@
 
 4. Extract & Inline Critical-path CSS in HTML pages with `critical`
 
-        critical index.src.html --inline > index.html
+        critical index.src.html --inline > index.html -->
 
 ---
 
