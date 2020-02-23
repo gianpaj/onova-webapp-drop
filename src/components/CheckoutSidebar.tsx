@@ -8,6 +8,7 @@ import { Formik } from 'formik';
 import ReactDOM from 'react-dom';
 import { Button, Col, FormGroup, Input, Modal, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import store from 'store';
+import NewWindow from 'react-new-window';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
 
@@ -594,13 +595,13 @@ export default class CheckoutSidebar extends Component<Props, State> {
   };
 
   onFinalStep = async () => {
+    // FIXME: open window to /payment directly here
     const { values }: { values: FormFields } = this.thisFormik;
     try {
       await this.updateUserInfo(values);
       this.setState({ tryingToPay: true });
       // TODO: if payment is LOOKUP show Confirmation input field
       // else render Payment iframe
-      this.setState({ payment });
       this.onNextStep();
 
       await this.confirmPayment();
@@ -618,6 +619,10 @@ export default class CheckoutSidebar extends Component<Props, State> {
     const body: any = await api.post(`/api/orders/${order.id}/pay`, { cvc }, { token });
     // console.debug(body.data);
     return body.data.payment;
+  }
+
+  onPopupBlock() {
+    console.error('pop up blocked');
   }
 
   renderPaymentIframe = () => {

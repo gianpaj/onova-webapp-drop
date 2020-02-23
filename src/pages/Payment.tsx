@@ -1,24 +1,58 @@
-import React from 'react';
-import { Payment as PaymentType } from '../types';
+import React, { Component } from 'react';
 
-type Props = {
-  // orderId: string;
-  // token: string;
+import * as api from '../utility/api';
+import { Payment as PaymentType } from '../types';
+import { Spinner } from '../components';
+import '../index.scss';
+
+interface Props {
+  cvc: string;
+  order: any;
+  token: string;
+}
+
+type State = {
   payment: PaymentType;
 };
 
-const Payment = ({ payment }: Props) => (
-  <iframe
-    title="Privat Bank"
-    style={{ border: 0, width: '100%', height: '100%' }}
-    srcDoc={`
-      <form action="${payment.url}" method="POST">
-        <input name="TermUrl" value="${payment.redirectUrl}" type="hidden" />
-        <input name="PaReq" value="${payment.PaReq}" type="hidden" />
-      </form>
-      <script>document.getElementsByTagName('form')[0].submit();</script>
-    `}
-  />
-);
+class Payment extends Component<Props, State> {
+  state = {
+    payment: (null as unknown) as PaymentType,
+  };
 
-export default React.memo(Payment);
+  componentDidMount() {
+    this.initiate();
+  }
+
+  async initiate() {
+    const payment = await this.createPayment();
+    this.setState({ payment });
+  }
+
+  async createPayment(): Promise<any> {
+    const { token, cvc, order } = this.props;
+    const body = await api.post(`/api/orders/${order.id}/pay`, { cvc }, { token });
+    return body.data.payment;
+  }
+
+  render() {
+    const { payment } = this.state;
+    if (!payment) return <Spinner height={202} />;
+
+    return (
+      <iframe
+        title="payment.uapay"
+        style={{ border: 0, width: '100%', height: '100%' }}
+        srcDoc={`
+        <form action="${payment.url}" method="POST">
+          <input name="TermUrl" value="${payment.redirectUrl}" type="hidden" />
+          <input name="PaReq" value="${payment.PaReq}" type="hidden" />
+        </form>
+        <script>document.getElementsByTagName('form')[0].submit();</script>
+      `}
+      />
+    );
+  }
+}
+
+export default Payment;
