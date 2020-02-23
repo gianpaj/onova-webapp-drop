@@ -60,7 +60,7 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Helmet title="Drop - Купуй та продавай одяг та аксесуари з телефону" />
+      <Helmet title="Drop - Маркетплейс веганської продукції" />
       <Header />
       <StoreButtons classNames="pb-3 text-center" />
       {loading ? (

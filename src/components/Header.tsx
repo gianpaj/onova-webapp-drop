@@ -18,7 +18,7 @@ function Header({ showTagline }: Props) {
       <Link to="/">
         <img alt="Drop" className="logo mt-5 mb-3" src={require('../images/logo-vector.svg')} width="75" height="75" />
       </Link>
-      {showTagline && <h1>Купуй та продавай одяг та аксесуари з телефону</h1>}
+      {showTagline && <h1>Маркетплейс веганської продукції</h1>}
     </div>
   );
 }

@@ -29,11 +29,11 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Drop - Купуй та продавай одяг та аксесуари з телефону",
+  "name": "Drop - Маркетплейс веганської продукції",
   "operatingSystem": "ANDROID",
   "applicationCategory": "http://schema.org/MobileApplication",
   "installUrl": "https://play.google.com/store/apps/details?id=com.onova.app&hl=uk",
-  "description": "Купуй та продавай одяг та аксесуари з телефону Download Givebox for Android and iPhone today",
+  "description": "Маркетплейс веганської продукції - Download Drop for Android and iPhone today",
   "offers": {
     "@type": "Offer",
     "price": "0"
@@ -44,7 +44,7 @@ const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 function sendIndexPage(req, res) {
   // replace the special strings with server generated strings
   let html = htmlFile;
-  html = html.replace(/\$OG_TITLE\$/g, 'Drop - Купуй та продавай одяг та аксесуари з телефону');
+  html = html.replace(/\$OG_TITLE\$/g, 'Drop - Маркетплейс веганської продукції');
   html = html.replace(/\$OG_DESCRIPTION\$/g, 'Мобільним додатком для купівлі та продажу одягу');
   html = html.replace(/\$OG_IMAGE\$/g, dropLogo);
   html = html.replace(/\$OG_IMAGE_WIDTH\$/g, '1200');
@@ -109,7 +109,7 @@ app.get('/:username([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
         throw new Error();
       }
       if (data.status !== 'forsale') {
-        throw new Error('not for sale')
+        throw new Error('not for sale');
       }
       let html = htmlFile;
       let title,
@@ -184,7 +184,7 @@ app.get('/:username([a-zA-Z0-9_.]{3,30})/drop/:itemId([a-zA-Z0-9_-]{7,14})', (re
 
 app.get('*', (req, res) => {
   let html = htmlFile;
-  html = html.replace(/\$OG_TITLE\$/g, 'Not Found - Drop - Купуй та продавай одяг та аксесуари з телефону');
+  html = html.replace(/\$OG_TITLE\$/g, 'Not Found - Drop - Маркетплейс веганської продукції');
   html = html.replace(/\$OG_DESCRIPTION\$/g, 'Мобільним додатком для купівлі та продажу одягу');
   html = html.replace(/\$OG_IMAGE\$/g, dropLogo);
   html = html.replace(/\$OG_IMAGE_WIDTH\$/g, '1200');
