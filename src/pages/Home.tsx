@@ -10,22 +10,23 @@ import './Home.scss';
 
 const LIMIT = 90;
 
-const tags = [
-  'arcteryx',
-  'converse',
-  'fjallraven',
-  'gucci',
-  'haglofs',
-  'jackwolfskin',
-  'lowa',
-  'mammut',
-  'patagonia',
-  'stoneisland',
-  'supreme',
-  'thenorthface',
-];
+// const tags = [
+//   'arcteryx',
+//   'converse',
+//   'fjallraven',
+//   'gucci',
+//   'haglofs',
+//   'jackwolfskin',
+//   'lowa',
+//   'mammut',
+//   'patagonia',
+//   'stoneisland',
+//   'supreme',
+//   'thenorthface',
+// ];
 
-const tagsQueries = tags.map(t => `tags[]=${t}`).join('&');
+// const tagsQueries = tags.map(t => `tags[]=${t}`).join('&');
+const tagsQueries = `tags=dropuno`;
 
 // const aprilDay = +new Date('2019-04-13');
 // const counterInitialNum = Math.floor((+new Date() - aprilDay) / 10000 / 60) + 2000;
