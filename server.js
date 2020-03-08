@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
@@ -180,7 +181,7 @@ app.get('/:username([a-zA-Z0-9_.]{3,30})/:itemId([a-zA-Z0-9_-]{7,14})', (req, re
     });
 });
 
-app.get('/:username([a-zA-Z0-9_.]{3,30})/drop/:itemId([a-zA-Z0-9_-]{7,14})', (req, res) => sendIndexPage);
+app.get('/:username([a-zA-Z0-9_.]{3,30})/drop/:itemId([a-zA-Z0-9_-]{7,14})', () => sendIndexPage);
 
 app.get('*', (req, res) => {
   let html = htmlFile;
