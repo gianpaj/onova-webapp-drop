@@ -61,7 +61,7 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Helmet title="Drop - Маркетплейс веганської продукції" />
+      <Helmet title="Drop - Мобільний додаток веганських та еко товарі" />
       <Header />
       <StoreButtons classNames="pb-3 text-center" />
       {loading ? (
