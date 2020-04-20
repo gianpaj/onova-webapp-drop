@@ -734,8 +734,7 @@ class ItemUploader extends React.Component<Props, State> {
                       onClick={handleSubmit}
                       disabled={
                         // !(isValid && fileList.length) ||
-                        // !fileList.length ||
-                        isSubmitting || isUploading
+                        !fileList.length || isSubmitting || isUploading
                       }>
                       {/* done / ready */}
                       Підготовлено

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 import store from 'store';
 import moment from 'moment';
@@ -105,7 +106,7 @@ type State = {
   view: string;
 };
 
-export default class Uploader extends React.Component {
+export default class Uploader extends React.Component<State> {
   state = {
     emailAddress: '',
     errMsg: '',
@@ -263,7 +264,7 @@ export default class Uploader extends React.Component {
   };
 
   loadIntercom(userData: any) {
-    if (api.isProd) {
+    if (api.analyticsEnabled) {
       window.Intercom('boot', {
         app_id: window.APP_ID,
         accountStatus: userData.accountStatus,
