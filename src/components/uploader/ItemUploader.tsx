@@ -5,21 +5,19 @@ import { Formik } from 'formik';
 import { DropzoneComponent } from 'react-dropzone-component';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import Progress from 'reactstrap/lib/Progress';
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import ImageCompressor from 'image-compressor.js';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'fbjs/lib/shallowEqual';
+import ReactDOMServer from 'react-dom/server';
 
 import './ItemUploader.scss';
 
 import * as ui from '../../utility/ui';
 import { API_URL } from '../../utility/api';
 import settings from '../../utility/settings';
-
-const ReactDOMServer = require('react-dom/server');
-
-const brands = require('../../assets/brands.json');
+import brands from '../../assets/brands.json';
 
 const MIN_WIDTH = 1000;
 const MIN_HEIGHT = 1000;
@@ -37,19 +35,23 @@ type Props = {
   token: string;
 };
 
-type State = {
-  categoryIds: number;
-  description: string;
+interface State extends FormValues {
   fileList: Array<any>;
   isUploading: boolean;
   progress: number;
-  price: string;
-  quantity: number;
   ready: boolean;
   tags: Array<any>;
   tagsText: string;
   thumbnail: string;
-};
+}
+
+interface FormValues {
+  categoryIds: number;
+  description: string;
+  price: string;
+  quantity: number;
+  weight: string;
+}
 
 // window.__TESTING__ = false;
 
@@ -68,6 +70,7 @@ class ItemUploader extends React.Component<Props, State> {
     tags: [],
     tagsText: '',
     thumbnail: '',
+    weight: '100',
   };
   dropzone: any;
   setProgressThrottled: any;
@@ -289,16 +292,16 @@ class ItemUploader extends React.Component<Props, State> {
   };
 
   onSubmit = async (
-    values: any,
+    values: FormValues,
     {
       setSubmitting,
-    }: // setErrors /* setValues and other goodies */,
+    }: // setErrors,
     {
       setSubmitting: (isSubmitting: boolean) => void;
-      // setErrors: (fields: { [field: string]: string }) => void,
+      // setErrors: (fields: { [field: string]: string }) => void;
     }
   ) => {
-    const { categoryIds, description, price, quantity } = values;
+    const { categoryIds, description, price, quantity, weight } = values;
     const { fileList, tags, tagsText } = this.state;
 
     // this.setState({ tagsText: '' });
@@ -311,6 +314,10 @@ class ItemUploader extends React.Component<Props, State> {
     // formData.append('categoryIds', categoryIds.toString());
     // if (tags.length) formData.append('tags', JSON.stringify(tags));
 
+    if (!fileList.length) {
+      return;
+    }
+
     if (tagsText.length) {
       await this.changeTagsTest({ target: { value: tagsText + ',' } });
     }
@@ -321,22 +328,22 @@ class ItemUploader extends React.Component<Props, State> {
       description,
       photos: fileList.map(f => f.URL),
       price: price.toString(),
-      quantity: parseInt(quantity),
+      quantity: quantity,
+      weight: parseInt(weight),
     };
     if (tags.length) data.tags = JSON.stringify(tags);
 
     console.debug(data);
     this.props.addItem(data);
     // for enable/disabling
-    this.setState({ description, price, categoryIds, quantity, ready: true });
+    this.setState({ description, price, categoryIds, quantity, weight, ready: true });
     setSubmitting(true);
     this.dropzone.disable();
   };
 
-  onValidate = (values: any) => {
-    const { price, description, categoryIds, quantity } = values;
-
-    let errors: any = {};
+  onValidate = (values: FormValues) => {
+    const { price, description, categoryIds, quantity, weight } = values;
+    const errors: any = {};
 
     if (!price) {
       errors.price = "Обов'язково";
@@ -361,7 +368,11 @@ class ItemUploader extends React.Component<Props, State> {
 
     if (quantity < 1) {
       errors.quantity = 'Мінімальна кількість 1';
-      // errors.categoryIds = 'Minimum quantity 1';
+      // errors.quantity = 'Minimum quantity 1';
+    }
+
+    if (!weight || parseInt(weight) > settings.MAX_WEIGHT || parseInt(weight) < settings.MIN_WEIGHT) {
+      errors.weight = 'bad weight';
     }
 
     return errors;
@@ -390,7 +401,7 @@ class ItemUploader extends React.Component<Props, State> {
     resetForm: () => void,
     setFieldTouched: {
       (
-        field: 'description' | 'categoryIds' | 'price' | 'quantity',
+        field: 'description' | 'categoryIds' | 'price' | 'quantity' | 'weight',
         isTouched?: boolean | undefined,
         shouldValidate?: boolean | undefined
       ): void;
@@ -451,6 +462,7 @@ class ItemUploader extends React.Component<Props, State> {
       ready,
       tags,
       tagsText,
+      weight,
     } = this.state;
     const { id, token } = this.props;
 
@@ -462,6 +474,7 @@ class ItemUploader extends React.Component<Props, State> {
             categoryIds,
             price,
             quantity,
+            weight,
           }}
           validateOnChange={false}
           validate={this.onValidate}
@@ -476,7 +489,7 @@ class ItemUploader extends React.Component<Props, State> {
             setFieldTouched,
             handleBlur,
             handleSubmit,
-            isValid,
+            // isValid,
             isSubmitting,
             resetForm,
           }) => {
@@ -608,6 +621,25 @@ class ItemUploader extends React.Component<Props, State> {
                       />
                       <Col className="align-self-center mt-3">
                         <span>кількість</span>
+                      </Col>
+                    </Col>
+                  </Row>
+                </Form.Item>
+                <Form.Item validateStatus={touched.weight && errors.weight ? 'error' : ''}>
+                  <Row>
+                    <Col className="d-inline-flex">
+                      <InputNumber
+                        disabled={isSubmitting}
+                        id="weight"
+                        min={settings.MIN_WEIGHT}
+                        max={settings.MAX_WEIGHT}
+                        onBlur={handleBlur}
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onChange={v => setFieldValue('weight', v)}
+                        value={values.weight ? parseInt(values.weight) : undefined}
+                      />
+                      <Col className="align-self-center mt-3">
+                        <span>Вага, гр</span>
                       </Col>
                     </Col>
                   </Row>
