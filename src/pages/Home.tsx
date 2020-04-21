@@ -26,8 +26,7 @@ const LIMIT = 90;
 // ];
 
 // const tagsQueries = tags.map(t => `tags[]=${t}`).join('&');
-// const tagsQueries = `tags=dropuno`;
-const tagsQueries = ``;
+const tagsQueries = `tags=dropuno`;
 
 // const aprilDay = +new Date('2019-04-13');
 // const counterInitialNum = Math.floor((+new Date() - aprilDay) / 10000 / 60) + 2000;
@@ -125,7 +124,7 @@ function Home() {
   );
 }
 
-export default Home;
+export default React.memo(Home);
 
 // const noop = () => {};
 
