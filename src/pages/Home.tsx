@@ -26,7 +26,8 @@ const LIMIT = 90;
 // ];
 
 // const tagsQueries = tags.map(t => `tags[]=${t}`).join('&');
-const tagsQueries = `tags=dropuno`;
+// const tagsQueries = `tags=dropuno`;
+const tagsQueries = ``;
 
 // const aprilDay = +new Date('2019-04-13');
 // const counterInitialNum = Math.floor((+new Date() - aprilDay) / 10000 / 60) + 2000;
@@ -41,7 +42,7 @@ function Home() {
       const timer = setTimeout(() => {
         setLoading(true);
       }, 1000);
-      const result = await api.getProducts(`?limit=${LIMIT}&${tagsQueries}`);
+      const result = await api.getProducts(`?sellerType=reseller&limit=${LIMIT}&${tagsQueries}`);
       clearTimeout(timer);
       setData(result);
     } catch (error) {
@@ -124,7 +125,7 @@ function Home() {
   );
 }
 
-export default React.memo(Home);
+export default Home;
 
 // const noop = () => {};
 

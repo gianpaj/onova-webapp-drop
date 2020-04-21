@@ -87,12 +87,9 @@ export default class CheckoutSidebar extends Component<Props, State> {
     tryingToPay: false,
   };
 
-  componentWillMount() {
-    window.addEventListener('resize', this.handleWindowSizeChange);
-  }
-
   async componentDidMount() {
     await this.initialize();
+    window.addEventListener('resize', this.handleWindowSizeChange);
     window.addEventListener('beforeunload', this.onUnload);
     configureScope(scope => {
       scope.setUser({ ...this.state.buyer });
