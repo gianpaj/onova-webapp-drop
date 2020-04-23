@@ -639,7 +639,7 @@ class ItemUploader extends React.Component<Props, State> {
                         value={values.weight ? parseInt(values.weight) : undefined}
                       />
                       <Col className="align-self-center mt-3">
-                        <span>Вага, гр</span>
+                        <span>Вага посилки, гр</span>
                       </Col>
                     </Col>
                   </Row>
