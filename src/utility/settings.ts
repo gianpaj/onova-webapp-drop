@@ -24,5 +24,5 @@ export default {
   HASHTAG_REGEX: /^$|^[a-zA-Z\u0400-\u04FF0-9_]+$/,
   // INSTABUG_TOKEN: '***REMOVED***',
   // BRAINTREE_TOKENIZATION_KEY: 'sandbox_45rbtwk4_wpk6jkwxv5kpqp58',
-  MIN_PRICE: 150, // valid including
+  MIN_PRICE: 50, // valid including
 };
