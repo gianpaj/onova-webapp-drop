@@ -16,7 +16,7 @@ const dropLogo = 'https://drop.uno/img/drop-logo-512px.png';
 const filePath = path.resolve(__dirname, './dist', 'index.html');
 const htmlFile = fs.readFileSync(filePath, 'utf8');
 
-const description = 'Мобільний додаток для веганської їжі та екотоварів для дому';
+const description = 'Мобільний додаток для веганської їжі та екотоварів';
 
 const defaultSchema = `<script data-schema="WebSite" type="application/ld+json">
 {
