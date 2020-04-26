@@ -620,7 +620,7 @@ class ItemUploader extends React.Component<Props, State> {
                         value={Number.isInteger(values.quantity) ? values.quantity : undefined}
                       />
                       <Col className="align-self-center mt-3">
-                        <span>кількість</span>
+                        <span>Наявна кількість на продаж, од</span>
                       </Col>
                     </Col>
                   </Row>
@@ -655,7 +655,7 @@ class ItemUploader extends React.Component<Props, State> {
                     onChange={v => setFieldValue('description', v)}
                     // eslint-disable-next-line react/jsx-no-bind
                     onBlur={() => setFieldTouched('description', true)}
-                    placeholder="опис (min 7 знаків)"
+                    placeholder="Опис, кількість(вага/об'єм/тощо), склад товару (min 7 знаків)"
                     value={values.description}
                   />
                 </Form.Item>
