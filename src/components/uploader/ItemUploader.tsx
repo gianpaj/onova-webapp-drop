@@ -650,7 +650,7 @@ class ItemUploader extends React.Component<Props, State> {
                     disabled={isSubmitting}
                     rows={5}
                     style={{ width: '100%' }}
-                    count={300}
+                    count={settings.MAX_LENGTH_DESCRIPTION}
                     // eslint-disable-next-line react/jsx-no-bind
                     onChange={v => setFieldValue('description', v)}
                     // eslint-disable-next-line react/jsx-no-bind
