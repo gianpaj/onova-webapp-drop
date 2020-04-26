@@ -655,7 +655,7 @@ class ItemUploader extends React.Component<Props, State> {
                     onChange={v => setFieldValue('description', v)}
                     // eslint-disable-next-line react/jsx-no-bind
                     onBlur={() => setFieldTouched('description', true)}
-                    placeholder="Опис, кількість(вага/об'єм/тощо), склад товару"
+                    placeholder="Опис товару, склад товару, кількість товару(вага/об'єм/тощо)"
                     value={values.description}
                   />
                 </Form.Item>
