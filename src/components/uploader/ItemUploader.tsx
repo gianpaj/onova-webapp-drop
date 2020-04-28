@@ -70,7 +70,7 @@ class ItemUploader extends React.Component<Props, State> {
     tags: [],
     tagsText: '',
     thumbnail: '',
-    weight: '100',
+    weight: '200',
   };
   dropzone: any;
   setProgressThrottled: any;
