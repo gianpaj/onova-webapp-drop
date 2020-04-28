@@ -612,8 +612,8 @@ class ItemUploader extends React.Component<Props, State> {
                       <InputNumber
                         disabled={isSubmitting}
                         id="quantity"
-                        min={1}
-                        max={99}
+                        min={100}
+                        max={1000}
                         onBlur={handleBlur}
                         // eslint-disable-next-line react/jsx-no-bind
                         onChange={v => setFieldValue('quantity', v)}
