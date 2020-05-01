@@ -70,7 +70,7 @@ class ItemUploader extends React.Component<Props, State> {
     tags: [],
     tagsText: '',
     thumbnail: '',
-    weight: '200',
+    weight: settings.DEFAULT_WEIGHT.toString(),
   };
   dropzone: any;
   setProgressThrottled: any;
@@ -464,7 +464,6 @@ class ItemUploader extends React.Component<Props, State> {
       tagsText,
       weight,
     } = this.state;
-    const { id, token } = this.props;
 
     return (
       <Card bordered={false}>
@@ -550,7 +549,7 @@ class ItemUploader extends React.Component<Props, State> {
                     ),
                     paramName: 'photo',
                     timeout: 0,
-                    headers: { Authorization: token },
+                    headers: { Authorization: this.props.token },
                   }}>
                   <div
                     className={

@@ -9,18 +9,19 @@ export default {
   MAX_LENGTH_PER_TAG: 30,
   MIN_LENGTH_REPORT: 7,
   MAX_LENGTH_REPORT: 300,
-  MIN_WEIGHT: 100,
+  DEFAULT_WEIGHT: 250,
+  MIN_WEIGHT: 50,
   MAX_WEIGHT: 5000,
   MIN_TAGS: 0,
   MAX_TAGS: 30,
   MAX_BRAND_TAGS: 1,
   MAX_IMAGE_WIDTH: 1440,
   MAX_IMAGE_HEIGHT: 1440,
-  USERNAME_REGEX: /^$|^[a-zA-Z0-9_.]+$/,
+  MIN_PRICE: 10, // valid including
   PRICE_REGEX: /^$|^(\b[\d]+[.]?[\d]{0,2})$/,
+  USERNAME_REGEX: /^$|^[a-zA-Z0-9_.]+$/,
   // also match white space
   HASHTAG_REGEX: /^$|^[a-zA-Z\u0400-\u04FF0-9_]+$/,
   // INSTABUG_TOKEN: '***REMOVED***',
   // BRAINTREE_TOKENIZATION_KEY: 'sandbox_45rbtwk4_wpk6jkwxv5kpqp58',
-  MIN_PRICE: 50, // valid including
 };
