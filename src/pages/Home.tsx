@@ -62,7 +62,7 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Helmet title="Drop - Мобільний додаток для веганської їжі та екотоварів від українських виробників" />
+      <Helmet title="Drop - Мобільний додаток екотоварів та веганської їжі від українських виробників" />
       <Header />
       <StoreButtons classNames="pb-3 text-center" />
       {loading ? (
