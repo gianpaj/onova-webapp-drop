@@ -17,6 +17,7 @@ import './ItemUploader.scss';
 import * as ui from '../../utility/ui';
 import { API_URL } from '../../utility/api';
 import settings from '../../utility/settings';
+import { chunk } from '../../utility/Utility';
 import brands from '../../assets/brands.json';
 
 const MIN_WIDTH = 1000;
@@ -696,27 +697,15 @@ class ItemUploader extends React.Component<Props, State> {
                       }}
                       value={values.categoryIds}
                       style={{ display: 'block' }}>
-                      <>
-                        {ui.category_radio_grp_1.map((g, i) => (
-                          <Radio key={i} value={g.value}>
-                            {g.label}
-                          </Radio>
-                        ))}
-                        <div style={{ paddingTop: 5 }}>
-                          {ui.category_radio_grp_2.map((g, i) => (
+                      {chunk(ui.categories, 2).map((cats, j) => (
+                        <div key={j} style={j > 0 ? { paddingTop: 5 } : {}}>
+                          {cats.map((g, i) => (
                             <Radio key={i} value={g.value}>
                               {g.label}
                             </Radio>
                           ))}
                         </div>
-                        <div style={{ paddingTop: 5 }}>
-                          {ui.category_radio_grp_3.map((g, i) => (
-                            <Radio key={i} value={g.value}>
-                              {g.label}
-                            </Radio>
-                          ))}
-                        </div>
-                      </>
+                      ))}
                     </Radio.Group>
                   </Form.Item>
                 </div>

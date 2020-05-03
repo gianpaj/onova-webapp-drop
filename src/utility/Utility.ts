@@ -30,3 +30,6 @@ export function formatCurrency(value: number, minDecimalPoints = 2) {
 export function sleep(ms: number): Promise<any> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export const chunk = (arr: Array<any>, size: number) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) => arr.slice(i * size, i * size + size));
