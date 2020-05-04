@@ -4,6 +4,7 @@ import { Spinner } from 'reactstrap';
 
 import { Header, ItemsList, StoreButtons } from '../components/index';
 import * as api from '../utility/api';
+import settings from '../utility/settings';
 
 import { Product } from '../types';
 import './Home.scss';
@@ -62,7 +63,7 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Helmet title="Drop - Мобільний додаток екотоварів та веганської їжі від українських виробників" />
+      <Helmet title={`Drop - ${settings.TAGLINE}`} />
       <Header />
       <StoreButtons classNames="pb-3 text-center" />
       {loading ? (
@@ -72,11 +73,15 @@ function Home() {
       ) : (
         <ItemsList items={data} />
       )}
-      {data.length > 0 && (
+      <div className="header mt-5 pt-5">
+        <h1>Більше в мобільному додатку</h1>
+      </div>
+      <StoreButtons classNames="pb-3 text-center" />
+      {/* {data.length > 0 && (
         <p style={{ fontSize: 'xx-large' }} className="pb-4 text-center">
           . . .
         </p>
-      )}
+      )} */}
       {/* {data.length > 0 && (
         <p style={{ fontSize: 'xx-large' }} className="pb-4 text-center">
           Речей на платформі: <span className="counter">{counter}</span>
