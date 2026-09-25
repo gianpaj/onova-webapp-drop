@@ -1,4 +1,30 @@
-# [Drop webapp](https://drop.uno)
+# Drop web app (`webapp-drop`)
+
+> Part of [Onova](https://www.onova.co/), a mobile marketplace for second-hand and sustainable clothing that [Gianfranco Palumbo](https://github.com/gianpaj) and Alex Kostinskyi built in Lviv, Ukraine. The company ran until September 2019. This repository is an archive and is not maintained.
+
+The web version of Drop, served at drop.uno. It showed shops and items, let buyers pay for an item and let sellers upload new items from a browser. It is built with Create React App and TypeScript, and deployed on every push to `master` through Bitbucket Pipelines.
+
+| | |
+|---|---|
+| First commit | 2019-05-12 |
+| Last commit | 2020-11-25 |
+| Commits | 121 (108 by Gianfranco) |
+| Code | about 4,700 lines of TypeScript and TSX |
+
+### Onova repositories
+
+- [onova-mobileapp](https://github.com/gianpaj/onova-mobileapp): the Onova and Drop iOS and Android apps
+- [onova-server.data](https://github.com/gianpaj/onova-server.data): the REST API
+- [onova-server.data.global](https://github.com/gianpaj/onova-server.data.global): the API fork for an international version
+- [onova-server.push](https://github.com/gianpaj/onova-server.push): push notifications
+- [onova-server.chat](https://github.com/gianpaj/onova-server.chat): order messages in buyer–seller chats
+- [onova-webapp-drop](https://github.com/gianpaj/onova-webapp-drop): the Drop web app
+- [onova-forest-admin](https://github.com/gianpaj/onova-forest-admin): the back office
+- [onova-automl-server](https://github.com/gianpaj/onova-automl-server): an image classifier prototype
+
+---
+
+## Original README
 
 <!-- ## Instructions for static html pages (faq.html, privacy-policy.html and terms)
 
